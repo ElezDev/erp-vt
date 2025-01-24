@@ -93,7 +93,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1, 
     shadowRadius: 8, 
     borderWidth: 1, 
-    borderColor: '#ECECEC', 
+    borderColor: '#ECECEC',
+    marginHorizontal:18,
+    paddingVertical: 20, 
   },
   iconContainer: {
     justifyContent: 'center',

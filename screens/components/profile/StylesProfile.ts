@@ -2,12 +2,12 @@ import { StyleSheet } from "react-native";
 import color from "src/constant/color";
 
  export const  stylesProfile = StyleSheet.create({
-    container: { padding: 20, backgroundColor: "#FAFAFA" },
+    container: { padding: 20, backgroundColor: "#FBFBFBC8" },
     centeredContainer: {
       flex: 1,
       justifyContent: "center",
       alignItems: "center",
-      backgroundColor: "#FAFAFA",
+      backgroundColor: "#FAFAFAFF",
     },
     profileImage: {
       width: 100,

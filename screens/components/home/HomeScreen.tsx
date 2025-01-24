@@ -35,7 +35,7 @@ const HomeScreen = ({ navigation }: { navigation: NavigationProp<any> }) => {
           ],
         }}
       >
-      <Header navigation={navigation} />
+      {/* <Header navigation={navigation} /> */}
       </Animated.View>
       <Search />
       <BannerERP />
@@ -48,7 +48,7 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
   scrollView: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 11,
     paddingTop: 10,
   },
 });
