@@ -4,25 +4,29 @@
     "slug": "erp-vt",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo-login.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/logo-login.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#fff4c2"
     },
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/logo-login.png",
+        "backgroundColor": "#fff4c2"
+      },
+      "package": "com.elezdev.erpvt"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0d7c6829-11a0-4ccc-b193-109cdacc42a0"
       }
     },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    }
+    "owner": "elezdev"
   }
 }
