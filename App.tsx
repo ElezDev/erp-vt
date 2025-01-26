@@ -30,7 +30,7 @@ export default function App() {
   if (expoPushToken) {
     console.log('TOKEN:', expoPushToken);
   } else {
-    console.log('No se pudo obtener el token de notificaciones push');
+   
   }
   
   return (

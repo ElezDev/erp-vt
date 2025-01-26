@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "742837122457",
+    "project_id": "erpapp-a9f31",
+    "storage_bucket": "erpapp-a9f31.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:742837122457:android:1e6452a5ff3e7355fe0f08",
+        "android_client_info": {
+          "package_name": "com.elezdev.erpvt"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3RG4nCaTDwC2Ee1DuyfVUgJaz4AE1WsA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

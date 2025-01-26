@@ -43,9 +43,6 @@ const BottomTabNavigator = () => {
         else if (route.name === 'Nomina') {
           iconName = focused ? 'card' : 'wallet'; 
         }
-        // else if (route.name === 'Chat') {
-        //   iconName = focused ? 'person' : 'person-outline';
-        // }
   
         return (
           <Animated.View style={[styles.iconContainer, focused && styles.iconFocused]}>
