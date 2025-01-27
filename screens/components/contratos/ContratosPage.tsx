@@ -53,14 +53,16 @@ const ContratosPage = () => {
       const response = await axios.get(`${BASE_URL}contratos`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setContratos(response.data);
-      setFilteredContratos(response.data);
+      setContratos(response.data as ContratosModel[]);
+      setFilteredContratos(response.data as ContratosModel[]);
     } catch (error) {
       console.error("Error al cargar los contratos:", error);
     } finally {
       setLoading(false);
     }
   };
+
+
 
   useEffect(() => {
     fetchContratos();

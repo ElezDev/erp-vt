@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import React from 'react';
+import color from 'src/constant/color';
 
 const Nomina = () => {
   return (
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
   },
   header: {
-    backgroundColor: '#007BFF',
+    backgroundColor: color.accentColor,
     paddingVertical: 20,
     paddingHorizontal: 15,
     marginBottom: 20,

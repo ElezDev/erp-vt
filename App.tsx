@@ -11,6 +11,8 @@ import { usePushNotifications } from 'usePushNotifications';
 import IndicatorScreen from 'screens/components/utils/IdicatorScreen';
 import DetalleContratoPage from 'screens/components/contratos/DetalleContratoPage';
 import { ContratosModel } from 'screens/components/contratos/ContratosTypes';
+import DetalleNominaContrato from 'screens/components/nomina/DetalleNominaContrato';
+import ContratosPage from 'screens/components/contratos/ContratosPage';
 
 export type RootStackParamList = {
   Indicator: undefined;
@@ -20,6 +22,8 @@ export type RootStackParamList = {
   CategoryDetail: { categoryName: string };
   NewsDetail: { newsItem: { id: number; title: string; description: string; image: string } };
   DetalleContrato: { contrato: ContratosModel };
+  DetalleNominaContrato:  { contrato: ContratosModel };
+  Contratos: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -44,6 +48,8 @@ export default function App() {
           <Stack.Screen name="NewsDetail" component={NewsDetailScreen} options={{ title: 'Detalle de Noticia' }} />
           <Stack.Screen name="Notification" component={notificationsScreen} />
           <Stack.Screen name="DetalleContrato" component={DetalleContratoPage} />
+          <Stack.Screen name="DetalleNominaContrato" component={DetalleNominaContrato} options={{title: ' Detalle Nomina'}} />
+          <Stack.Screen name="Contratos" component={ContratosPage} />
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>

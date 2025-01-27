@@ -6,6 +6,7 @@ import {
   Image,
   ActivityIndicator,
   Button,
+  TouchableOpacity,
 } from "react-native";
 import axios from "axios";
 import BASE_URL from "src/Config/config";
@@ -15,6 +16,9 @@ import { ContratosModel } from "./ContratosTypes";
 import { RootStackParamList } from "App";
 import { stylesContrato } from "./StylesContrato";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { stylesDetalle } from "./StylesDetalle";
+import { FontAwesome5 } from '@expo/vector-icons'; 
+
 
 type DetalleContratoScreenRouteProp = RouteProp<
   RootStackParamList,
@@ -38,7 +42,9 @@ const DetalleContratoPage = ({ route, navigation }: DetalleContratoProps) => {
   );
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
+  const handleSelectContrato = (contrato: ContratosModel) => {
+    navigation.navigate("DetalleNominaContrato", { contrato });
+  };
   const fetchContrato = async () => {
     try {
       setLoading(true);
@@ -47,7 +53,7 @@ const DetalleContratoPage = ({ route, navigation }: DetalleContratoProps) => {
         const response = await axios.get(
           `${BASE_URL}contrato_by_id/${contrato.id}`
         );
-        setContratoDetails(response.data);
+        setContratoDetails(response.data as ContratosModel);
       } else {
         setContratoDetails(contrato);
       }
@@ -61,7 +67,6 @@ const DetalleContratoPage = ({ route, navigation }: DetalleContratoProps) => {
 
   useEffect(() => {
     fetchContrato();
-    // Personalizar el título del header
     if (contratoDetails) {
       navigation.setOptions({
         title: `${contratoDetails.persona.nombre1} ${contratoDetails.persona.apellido1}`,
@@ -100,14 +105,7 @@ const DetalleContratoPage = ({ route, navigation }: DetalleContratoProps) => {
   return (
     <ScrollView style={stylesContrato.container}>
       <View style={stylesContrato.body}>
-        {/* Lado Izquierdo: Logo de la Empresa */}
-        <View style={stylesContrato.leftSide}>
-          <Image
-            source={{ uri: "https://admin.virtualt.org/default/logoweb.png" }}
-            style={stylesContrato.logo}
-          />
-        </View>
-
+    
         {/* Lado Derecho: Información del contrato y persona */}
         <View style={stylesContrato.rightSide}>
           <View style={stylesContrato.cardHeader}>
@@ -185,6 +183,20 @@ const DetalleContratoPage = ({ route, navigation }: DetalleContratoProps) => {
           </View>
         ))}
       </View>
+
+      {/* Botón para regresar */}
+
+<View style={stylesContrato.container}>
+  <TouchableOpacity 
+    style={stylesDetalle.buttonNomina} 
+    onPress={() => handleSelectContrato(contratoDetails)}
+  >
+    <FontAwesome5 name="file-invoice-dollar" size={16} color="#FFF" style={{ marginRight: 10 }} />
+    <Text style={stylesDetalle.buttonNominaText}>Detalle Nómina</Text>
+  </TouchableOpacity>
+</View>
+
+      
     </ScrollView>
   );
 };

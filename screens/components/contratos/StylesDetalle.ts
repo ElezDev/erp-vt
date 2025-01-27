@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import color from 'src/constant/color';
 
 export const stylesDetalle = StyleSheet.create({
   container: {
@@ -138,5 +139,21 @@ export const stylesDetalle = StyleSheet.create({
   },
   inactivo: {
     color: "red",
+  },
+
+  buttonNomina: {
+    flexDirection: 'row',
+    alignItems: 'center', 
+    justifyContent: 'center', 
+    backgroundColor: color.accentColor, 
+    padding: 10,
+    borderRadius: 5,
+  },
+  
+  buttonNominaText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });

@@ -10,6 +10,7 @@ import ContratosPage from '../contratos/ContratosPage';
 import Nomina from '../nomina/Nomina';
 import Home from '../home/HomeScreen';
 import HomeScreen from '../home/HomeScreen';
+import NominaGeneral from '../nomina/NominaGeneral';
 
 const Tab = createBottomTabNavigator();
 
@@ -36,10 +37,10 @@ const BottomTabNavigator = () => {
         } else if (route.name === 'Profile') {
           iconName = focused ? 'person' : 'person-outline';
         }
-         else if (route.name === 'Contratos') {
-          iconName = focused ? 'document-text' : 'document-outline';
+        //  else if (route.name === 'Contratos') {
+        //   iconName = focused ? 'document-text' : 'document-outline';
 
-        }
+        // }
         else if (route.name === 'Nomina') {
           iconName = focused ? 'card' : 'wallet'; 
         }
@@ -66,8 +67,8 @@ const BottomTabNavigator = () => {
     })}
   >
     <Tab.Screen name="Home" component={HomeScreen} />
-    <Tab.Screen name="Contratos" component={ContratosPage} />
-    <Tab.Screen name="Nomina" component={Nomina} />
+    {/* <Tab.Screen name="Contratos" component={ContratosPage} /> */}
+    <Tab.Screen name="Nomina" component={NominaGeneral} />
     <Tab.Screen name="Profile" component={ProfileScreen} />
   </Tab.Navigator>
   
