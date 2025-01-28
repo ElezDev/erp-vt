@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import Modal from 'react-native-modal';  // Importamos el Modal
-import color from 'src/constant/color';
+import Entypo from '@expo/vector-icons/Entypo';
+
 import { stylesDetalleNomina } from './styles/DetalleNominaStyles';
-import { Button } from 'react-native-paper';
 import ModalVacaciones from './ModalVacaciones';
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import { NavigationProp } from '@react-navigation/native';
+
 
 const contrato = {
   numContrato: "12345",
@@ -17,16 +19,17 @@ const contrato = {
   costoTrabajador: 8500000,
 };
 
-const DetalleNominaContrato = () => {
-  const [modalVisible, setModalVisible] = useState(false);
+const DetalleNominaContrato = ({ navigation }: { navigation: NavigationProp<any> }) => {
+  // const [modalVisible, setModalVisible] = useState(false);
 
   const handleVacaciones = () => {
-    setModalVisible(true);  
+    navigation.navigate("Vacaciones");
   };
 
-  const handleCloseModal = () => {
-    setModalVisible(false);  
-  };
+  const handleIncapacidades = () => {
+    navigation.navigate("Incapacidades");
+  }
+
 
   return (
     <ScrollView style={stylesDetalleNomina.container}>
@@ -78,14 +81,27 @@ const DetalleNominaContrato = () => {
           <Icon name="beach-access" size={28} color="#fff" />
           <Text style={stylesDetalleNomina.actionText}>Vacaciones</Text>
         </TouchableOpacity>
+        <TouchableOpacity style={stylesDetalleNomina.actionButton} onPress={handleVacaciones}>
+        <Entypo name="info" size={24} color="#fff" />
+          <Text style={stylesDetalleNomina.actionText}>Info</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={stylesDetalleNomina.actionButton} onPress={handleIncapacidades}>
+        <FontAwesome5 name="briefcase-medical" size={24} color="#fff" />
+          <Text style={stylesDetalleNomina.actionText}>Incapacidades</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={stylesDetalleNomina.actionButton} onPress={handleVacaciones}>
+        <FontAwesome5 name="comments-dollar" size={24} color="#fff" />
+          <Text style={stylesDetalleNomina.actionText}>Retenciones</Text>
+        </TouchableOpacity>
       </View>
+      
 
       {/* Modal para Vacaciones */}
       <View>
-      <ModalVacaciones
+      {/* <ModalVacaciones
         visible={modalVisible}
         onClose={() => setModalVisible(false)}
-      />
+      /> */}
     </View>
     </ScrollView>
   );

@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import {
   View,
   Text,
-  Modal,
   TouchableOpacity,
   Switch,
   TextInput,
   FlatList,
-  StyleSheet,
 } from "react-native";
+import Icon from "react-native-vector-icons/MaterialIcons";
+import { stylesVacaciones } from "./styles/VacacionesStyles";
 
-const ModalVacaciones = ({ visible, onClose }) => {
+const VacacionesView = () => {
   const [periodos, setPeriodos] = useState([
     {
       id: 1,
@@ -32,189 +32,128 @@ const ModalVacaciones = ({ visible, onClose }) => {
     },
   ]);
 
-  const handleAgregarPeriodo = () => {
-    const nuevoPeriodo = {
-      id: periodos.length + 1,
-      periodo: "",
-      fechaSolicitud: "",
-      fechaLiquidacion: "",
-      fechaEjecucion: "",
-      seleccionado: false,
-      estado: "Pendiente",
-    };
-    setPeriodos([...periodos, nuevoPeriodo]);
+  const [busqueda, setBusqueda] = useState("");
+  const [resultados, setResultados] = useState(periodos);
+
+  const handleBuscar = (texto: string) => {
+    setBusqueda(texto);
+    if (texto === "") {
+      setResultados(periodos);
+    } else {
+      const filtrados = periodos.filter((p) =>
+        p.periodo.toLowerCase().includes(texto.toLowerCase())
+      );
+      setResultados(filtrados);
+    }
   };
 
-  const handleGuardar = () => {
-    console.log("Datos guardados:", periodos);
-    onClose();
-  };
+  interface Periodo {
+    id: number;
+    periodo: string;
+    fechaSolicitud: string;
+    fechaLiquidacion: string;
+    fechaEjecucion: string;
+    seleccionado: boolean;
+    estado: string;
+  }
 
-  const handleActualizarPeriodo = (id, campo, valor) => {
+  const handleActualizarPeriodo = (id: number, campo: keyof Periodo, valor: string | boolean) => {
     const actualizados = periodos.map((p) =>
       p.id === id ? { ...p, [campo]: valor } : p
     );
     setPeriodos(actualizados);
+    setResultados(actualizados.filter((p) =>
+      p.periodo.toLowerCase().includes(busqueda.toLowerCase())
+    ));
   };
 
-  const renderPeriodo = ({ item }) => (
-    <View style={styles.row}>
-      {/* Período */}
-      <TextInput
-        style={styles.input}
-        value={item.periodo}
-        onChangeText={(text) => handleActualizarPeriodo(item.id, "periodo", text)}
-        placeholder="Año"
-      />
-      {/* Fecha de Solicitud */}
-      <TextInput
-        style={styles.input}
-        value={item.fechaSolicitud}
-        onChangeText={(text) =>
-          handleActualizarPeriodo(item.id, "fechaSolicitud", text)
-        }
-        placeholder="Fecha Solicitud"
-      />
-      {/* Fecha de Liquidación */}
-      <TextInput
-        style={styles.input}
-        value={item.fechaLiquidacion}
-        onChangeText={(text) =>
-          handleActualizarPeriodo(item.id, "fechaLiquidacion", text)
-        }
-        placeholder="Fecha Liquidación"
-      />
-      {/* Fecha de Ejecución */}
-      <TextInput
-        style={styles.input}
-        value={item.fechaEjecucion}
-        onChangeText={(text) =>
-          handleActualizarPeriodo(item.id, "fechaEjecucion", text)
-        }
-        placeholder="Fecha Ejecución"
-      />
-      {/* Switch */}
+  const renderPeriodo = ({ item }: { item: { id: number; periodo: string; fechaSolicitud: string; fechaLiquidacion: string; fechaEjecucion: string; seleccionado: boolean; estado: string; } }) => (
+    <View style={stylesVacaciones.card}>
+      <Text style={stylesVacaciones.cardTitle}>Período: {item.periodo || "Nuevo"}</Text>
+
+      <View style={stylesVacaciones.inputRow}>
+        <Text style={stylesVacaciones.label}>Período:</Text>
+        <TextInput
+          style={stylesVacaciones.input}
+          value={item.periodo}
+          onChangeText={(text) => handleActualizarPeriodo(item.id, "periodo", text)}
+          placeholder="Año"
+        />
+      </View>
+
+      <View style={stylesVacaciones.inputRow}>
+        <Text style={stylesVacaciones.label}>Solicitud:</Text>
+        <TextInput
+          style={stylesVacaciones.input}
+          value={item.fechaSolicitud}
+          onChangeText={(text) =>
+            handleActualizarPeriodo(item.id, "fechaSolicitud", text)
+          }
+          placeholder="Fecha Solicitud"
+        />
+      </View>
+
+      <View style={stylesVacaciones.inputRow}>
+        <Text style={stylesVacaciones.label}>Liquidación:</Text>
+        <TextInput
+          style={stylesVacaciones.input}
+          value={item.fechaLiquidacion}
+          onChangeText={(text) =>
+            handleActualizarPeriodo(item.id, "fechaLiquidacion", text)
+          }
+          placeholder="Fecha Liquidación"
+        />
+      </View>
+
+      <View style={stylesVacaciones.inputRow}>
+        <Text style={stylesVacaciones.label}>Ejecución:</Text>
+        <TextInput
+          style={stylesVacaciones.input}
+          value={item.fechaEjecucion}
+          onChangeText={(text) =>
+            handleActualizarPeriodo(item.id, "fechaEjecucion", text)
+          }
+          placeholder="Fecha Ejecución"
+        />
+      </View>
+
       <Switch
-        value={item.seleccionado}
-        onValueChange={(value) =>
-          handleActualizarPeriodo(item.id, "seleccionado", value)
-        }
-      />
+  style={stylesVacaciones.switch}
+  value={item.seleccionado}
+  onValueChange={(value) =>
+    handleActualizarPeriodo(item.id, "seleccionado", value)
+  }
+  thumbColor={item.seleccionado ? "#ff6605" : "#f4f4f4"} // Cambia el color del círculo.
+  trackColor={{
+    false: "#ccc",
+    true: "#ff6605",
+  }}
+/>
+
     </View>
   );
 
   return (
-    <Modal visible={visible} animationType="slide" transparent>
-      <View style={styles.modalOverlay}>
-        <View style={styles.modalContainer}>
-          <Text style={styles.modalTitle}>Vacaciones</Text>
-
-          {/* Tabla de Períodos */}
-          <FlatList
-            data={periodos}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={renderPeriodo}
-            ListHeaderComponent={() => (
-              <View style={styles.row}>
-                <Text style={[styles.header, { flex: 1 }]}>Período</Text>
-                <Text style={[styles.header, { flex: 2 }]}>Solicitud</Text>
-                <Text style={[styles.header, { flex: 2 }]}>Liquidación</Text>
-                <Text style={[styles.header, { flex: 2 }]}>Ejecución</Text>
-                <Text style={[styles.header, { flex: 1 }]}>Seleccionado</Text>
-              </View>
-            )}
-          />
-
-          {/* Botón para agregar un nuevo período */}
-          <TouchableOpacity
-            style={styles.buttonAdd}
-            onPress={handleAgregarPeriodo}
-          >
-            <Text style={styles.buttonText}>Agregar Período</Text>
-          </TouchableOpacity>
-
-          {/* Botones */}
-          <View style={styles.buttonsContainer}>
-            <TouchableOpacity style={styles.buttonCancel} onPress={onClose}>
-              <Text style={styles.buttonText}>Cancelar</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonSave} onPress={handleGuardar}>
-              <Text style={styles.buttonText}>Guardar</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+    <View style={stylesVacaciones.container}>
+      {/* Buscador */}
+      <View style={stylesVacaciones.searchContainer}>
+        <Icon name="search" size={20} color="#888" style={stylesVacaciones.searchIcon} />
+        <TextInput
+          style={stylesVacaciones.searchBar}
+          value={busqueda}
+          onChangeText={handleBuscar}
+          placeholder="Buscar por período"
+        />
       </View>
-    </Modal>
+
+      <FlatList
+        data={resultados}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={renderPeriodo}
+      />
+    </View>
   );
 };
 
-const styles = StyleSheet.create({
-  modalOverlay: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  modalContainer: {
-    width: "90%",
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    padding: 20,
-    elevation: 5,
-  },
-  modalTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 15,
-  },
-  row: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 10,
-  },
-  header: {
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  input: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 5,
-    padding: 8,
-    marginHorizontal: 5,
-  },
-  buttonsContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 20,
-  },
-  buttonAdd: {
-    backgroundColor: "#2196F3",
-    padding: 10,
-    borderRadius: 5,
-    marginVertical: 10,
-    alignItems: "center",
-  },
-  buttonCancel: {
-    backgroundColor: "#f44336",
-    padding: 10,
-    borderRadius: 5,
-    flex: 1,
-    marginRight: 10,
-    alignItems: "center",
-  },
-  buttonSave: {
-    backgroundColor: "#4caf50",
-    padding: 10,
-    borderRadius: 5,
-    flex: 1,
-    alignItems: "center",
-  },
-  buttonText: {
-    color: "#fff",
-    fontWeight: "bold",
-  },
-});
 
-export default ModalVacaciones;
+export default VacacionesView;
