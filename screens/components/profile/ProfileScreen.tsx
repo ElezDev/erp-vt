@@ -2,12 +2,10 @@ import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
-
   Image,
   ScrollView,
   ActivityIndicator,
   Alert,
-  TouchableOpacity,
 } from "react-native";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
@@ -16,19 +14,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { stylesProfile } from "./StylesProfile";
 import { Persona } from "../contratos/ContratosTypes";
 
-// interface Persona {
-//   nombre1: string;
-//   nombre2: string;
-//   apellido1: string;
-//   apellido2: string;
-//   email: string;
-//   direccion: string;
-//   celular: string;
-//   telefonoFijo: string;
-//   perfil: string;
-//   rutaFotoUrl: string;
-//   ubicacion: { descripcion: string };
-// }
+
 
 const ProfileScreen = () => {
   const [userData, setUserData] = useState<Persona | null>(null);
@@ -39,9 +25,8 @@ const ProfileScreen = () => {
     const fetchUserData = async () => {
       try {
         const token = await AsyncStorage.getItem("access_token");
-        const response = await axios.post(
+        const response = await axios.get(
           `${BASE_URL}user`,
-          {},
           {
             headers: { Authorization: `Bearer ${token}` },
           }
