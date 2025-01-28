@@ -15,6 +15,7 @@ import DetalleNominaContrato from "screens/components/nomina/DetalleNominaContra
 import ContratosPage from "screens/components/contratos/ContratosPage";
 import VacacionesView from "screens/components/nomina/ModalVacaciones";
 import IncapacidadesView from "screens/components/nomina/Incapacidades";
+import RetencionesPage from "screens/components/nomina/NominaRetenciones";
 
 export type RootStackParamList = {
   Indicator: undefined;
@@ -30,6 +31,7 @@ export type RootStackParamList = {
   Contratos: undefined;
   Vacaciones: undefined;
   Incapacidades: undefined;
+  Retenciones: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -97,6 +99,15 @@ export default function App() {
               title: "Incapacidades",
             }}
           />
+
+          <Stack.Screen
+            name="Retenciones"
+            component={RetencionesPage}
+            options={{
+              title: "Deducciones y retenciones",
+            }}
+          />
+          
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>

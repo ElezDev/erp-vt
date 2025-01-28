@@ -3,7 +3,7 @@ import { View, Text, TextInput, FlatList, TouchableOpacity } from "react-native"
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { incapacidadesStyles } from "./styles/IncapacidadesStyles";
 
-const IncapacidadesView = () => {
+const IncapacidadesPage = () => {
   const [incapacidades, setincapacidades] = useState([
     {
       id: 1,
@@ -144,4 +144,4 @@ const IncapacidadesView = () => {
   );
 };
 
-export default IncapacidadesView;
+export default IncapacidadesPage;

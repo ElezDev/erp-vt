@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Entypo from '@expo/vector-icons/Entypo';
 
@@ -7,6 +7,7 @@ import { stylesDetalleNomina } from './styles/DetalleNominaStyles';
 import ModalVacaciones from './ModalVacaciones';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { NavigationProp } from '@react-navigation/native';
+import RetencionesPage from './NominaRetenciones';
 
 
 const contrato = {
@@ -28,6 +29,16 @@ const DetalleNominaContrato = ({ navigation }: { navigation: NavigationProp<any>
 
   const handleIncapacidades = () => {
     navigation.navigate("Incapacidades");
+  }
+
+  const handleInfocontrato = () => {
+    // navigation.navigate("DetalleContrato");
+    Alert.alert("Info", "Detalle del contrato");
+  };
+
+  const handleRetenciones = () => {
+    navigation.navigate("Retenciones");
+
   }
 
 
@@ -81,7 +92,7 @@ const DetalleNominaContrato = ({ navigation }: { navigation: NavigationProp<any>
           <Icon name="beach-access" size={28} color="#fff" />
           <Text style={stylesDetalleNomina.actionText}>Vacaciones</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={stylesDetalleNomina.actionButton} onPress={handleVacaciones}>
+        <TouchableOpacity style={stylesDetalleNomina.actionButton} onPress={handleInfocontrato}>
         <Entypo name="info" size={24} color="#fff" />
           <Text style={stylesDetalleNomina.actionText}>Info</Text>
         </TouchableOpacity>
@@ -89,7 +100,7 @@ const DetalleNominaContrato = ({ navigation }: { navigation: NavigationProp<any>
         <FontAwesome5 name="briefcase-medical" size={24} color="#fff" />
           <Text style={stylesDetalleNomina.actionText}>Incapacidades</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={stylesDetalleNomina.actionButton} onPress={handleVacaciones}>
+        <TouchableOpacity style={stylesDetalleNomina.actionButton} onPress={handleRetenciones}>
         <FontAwesome5 name="comments-dollar" size={24} color="#fff" />
           <Text style={stylesDetalleNomina.actionText}>Retenciones</Text>
         </TouchableOpacity>
