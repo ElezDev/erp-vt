@@ -26,6 +26,8 @@ const ContratosPage = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [filterState, setFilterState] = useState<string | null>(null);
+  const [imageError, setImageError] = useState(false);
+
   const [selectedStates, setSelectedStates] = useState<{ [key: string]: boolean }>({
     ACTIVO: false,
     INACTIVO: false,
@@ -111,9 +113,14 @@ const ContratosPage = () => {
       onPress={() => navigation.navigate("DetalleContrato", { contrato: item })}
     >
       <View style={stylesDetalle.cardHeader}>
-        <Image
-          source={{ uri: item.persona.rutaFotoUrl }}
+      <Image
+          source={
+            imageError || !item.persona.rutaFotoUrl
+              ? require("../../../assets/images/avatar.png") // Imagen por defecto local
+              : { uri: item.persona.rutaFotoUrl }
+          }
           style={stylesDetalle.avatar}
+          onError={() => setImageError(true)} // Si falla, cambia a la imagen por defecto
         />
         <View style={stylesDetalle.cardHeaderText}>
           <Text style={stylesDetalle.title}>{item.numeroContrato}</Text>

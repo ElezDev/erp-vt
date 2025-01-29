@@ -33,6 +33,8 @@ const ProfileScreen = () => {
         );
 
         setUserData((response.data as { persona: Persona }).persona);
+        console.log("User data:", response.data);
+        
       } catch (error) {
         Alert.alert("Error", "No se pudo cargar la información del usuario.");
         console.error("Error fetching user data:", error);

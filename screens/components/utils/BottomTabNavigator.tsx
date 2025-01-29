@@ -38,8 +38,10 @@ const BottomTabNavigator = () => {
             iconName = focused ? "home" : "home-outline";
           } else if (route.name === "Profile") {
             iconName = focused ? "person" : "person-outline";
-          } else if (route.name === "Contratos") {
-            iconName = focused ? "document-text" : "document-outline";
+          // }
+          //  else if (route.name === "Contratos") {
+          //   iconName = focused ? "document-text" : "document-outline";
+            
           } else if (route.name === "Nomina") {
             iconName = focused ? "card" : "wallet";
           }
@@ -68,7 +70,7 @@ const BottomTabNavigator = () => {
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Contratos" component={ContratosPage} />
+      {/* <Tab.Screen name="Contratos" component={ContratosPage} /> */}
       <Tab.Screen name="Nomina" component={NominaGeneral} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
