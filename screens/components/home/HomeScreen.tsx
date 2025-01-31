@@ -8,6 +8,7 @@ import HeadLine from "../navigations/HeadLine";
 import Search from "../utils/Search";
 import BannerERP from "./BannerERP";
 import GraficosResumen from "../graficos/GraficosResumen";
+import Stories from "../Stories/StoriesScreen";
 
 const HomeScreen = ({ navigation }: { navigation: NavigationProp<any> }) => {
   const headerAnim = React.useRef(new Animated.Value(0)).current;
@@ -37,7 +38,8 @@ const HomeScreen = ({ navigation }: { navigation: NavigationProp<any> }) => {
       >
       {/* <Header navigation={navigation} /> */}
       </Animated.View>
-      <Search />
+      {/* <Search /> */}
+      <Stories/>
       <BannerERP />
       <GraficosResumen />
       </ScrollView>

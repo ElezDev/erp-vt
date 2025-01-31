@@ -20,6 +20,9 @@ import RetencionesPage from "screens/components/nomina/NominaRetenciones";
 import { EventRegister } from "react-native-event-listeners";
 import themeContext from "theme/themeContext";
 import theme from "theme/theme";
+import StoryDetail from "screens/components/Stories/StoryDetail";
+import Nomina from "screens/components/nomina/Nomina";
+import NominaGeneral from "screens/components/nomina/NominaGeneral";
 
 export type RootStackParamList = {
   Indicator: undefined;
@@ -36,6 +39,8 @@ export type RootStackParamList = {
   Vacaciones: undefined;
   Incapacidades: undefined;
   Retenciones: undefined;
+  StoryDetail: { stories: any[]; initialIndex: number };
+  NominaGeneral: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -126,6 +131,16 @@ export default function App() {
                 title: "Deducciones y retenciones",
               }}
             />
+            <Stack.Screen
+             name="StoryDetail"
+             component={StoryDetail}
+             options={{ headerShown: false }} 
+             />
+            <Stack.Screen
+             name="NominaGeneral"
+             component={NominaGeneral}
+             options={{ headerShown: true, title: "Nómina General" }} 
+             />
           </Stack.Navigator>
         </NavigationContainer>
       {/* </themeContext.Provider> */}

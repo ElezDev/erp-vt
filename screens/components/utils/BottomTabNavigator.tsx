@@ -1,15 +1,22 @@
-import React from "react";
+
+
+
+
+import React, { useEffect, useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { View, Text, StyleSheet } from "react-native";
+import { Text, StyleSheet, View, ActivityIndicator } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Animated from "react-native-reanimated";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import ProfileScreen from "../profile/ProfileScreen";
-import color from "src/constant/color";
-import CustomHeader from "../navigations/CustomHeader";
-import ContratosPage from "../contratos/ContratosPage";
 import Nomina from "../nomina/Nomina";
 import HomeScreen from "../home/HomeScreen";
 import NominaGeneral from "../nomina/NominaGeneral";
+import CustomHeader from "../navigations/CustomHeader";
+import color from "src/constant/color";
+import homeUser from "../User/home/homeUser";
+import Banners from "../nomina/TipoNomina";
 
 const Tab = createBottomTabNavigator();
 
@@ -28,35 +35,57 @@ const CustomTabBarLabel: React.FC<CustomTabBarLabelProps> = ({
 );
 
 const BottomTabNavigator = () => {
+  const [roles, setRoles] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchRoles = async () => {
+      try {
+        const storedRoles = await AsyncStorage.getItem("roles");
+        setRoles(storedRoles ? JSON.parse(storedRoles) : []);
+      } catch (error) {
+        console.error("Error al obtener los roles:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRoles();
+  }, []);
+
+  if (loading) {
+    return (
+      <View style={styles.loaderContainer}>
+        <ActivityIndicator size="large" color={color.primaryColor} />
+      </View>
+    );
+  }
+
+  const screens = [
+    { name: "Home", component: HomeScreen, icon: "home-outline", roles: ["Admin", "MARKETING DIGITAL"] },
+    { name: "Nomina", component: Banners, icon: "wallet", roles: ["Admin"] },
+    { name: "Profile", component: ProfileScreen, icon: "person-outline", roles: ["Admin", "MARKETING DIGITAL", "DESARROLADOR JR"] },
+    { name: "Home", component: homeUser, icon: "home-outline", roles: ["DESARROLADOR JR"] },
+  ];
+
+  const filteredScreens = screens.filter((screen) =>
+    screen.roles.some((role) => roles.includes(role))
+  );
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
-          let iconName;
-
-          if (route.name === "Home") {
-            iconName = focused ? "home" : "home-outline";
-          } else if (route.name === "Profile") {
-            iconName = focused ? "person" : "person-outline";
-          // }
-          //  else if (route.name === "Contratos") {
-          //   iconName = focused ? "document-text" : "document-outline";
-            
-          } else if (route.name === "Nomina") {
-            iconName = focused ? "card" : "wallet";
-          }
+          const screen = screens.find((s) => s.name === route.name);
+          const iconName = focused ? screen?.icon.replace("-outline", "") : screen?.icon;
 
           return (
-            <Animated.View
-              style={[styles.iconContainer, focused && styles.iconFocused]}
-            >
+            <Animated.View style={[styles.iconContainer, focused && styles.iconFocused]}>
               <Ionicons name={iconName as string} size={size} color={color} />
             </Animated.View>
           );
         },
-        tabBarLabel: ({ focused }) => (
-          <CustomTabBarLabel focused={focused} title={route.name} />
-        ),
+        tabBarLabel: ({ focused }) => <CustomTabBarLabel focused={focused} title={route.name} />,
         tabBarStyle: styles.tabBar,
         tabBarActiveTintColor: color.primaryColor,
         tabBarInactiveTintColor: "#A9A9A9",
@@ -69,13 +98,13 @@ const BottomTabNavigator = () => {
         ),
       })}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
-      {/* <Tab.Screen name="Contratos" component={ContratosPage} /> */}
-      <Tab.Screen name="Nomina" component={NominaGeneral} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+      {filteredScreens.map((screen) => (
+        <Tab.Screen key={screen.name} name={screen.name} component={screen.component} />
+      ))}
     </Tab.Navigator>
   );
 };
+
 
 const styles = StyleSheet.create({
   tabBar: {
@@ -112,6 +141,11 @@ const styles = StyleSheet.create({
     color: color.primaryColor,
     fontWeight: "600",
   },
+  loaderContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  }
 });
 
 export default BottomTabNavigator;

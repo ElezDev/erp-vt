@@ -25,6 +25,9 @@ const ProfileScreen = () => {
     const fetchUserData = async () => {
       try {
         const token = await AsyncStorage.getItem("access_token");
+        const roles = await AsyncStorage.getItem("roles");
+        console.log("Roles:", roles);
+        
         const response = await axios.get(
           `${BASE_URL}user`,
           {

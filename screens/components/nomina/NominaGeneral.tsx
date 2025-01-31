@@ -3,10 +3,8 @@ import {
   View,
   Text,
   ScrollView,
-  TouchableOpacity,
 } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
-import color from "src/constant/color";
 import BannerNomina from "./BannerNomina";
 
 import { NavigationProp } from '@react-navigation/native';
@@ -78,18 +76,6 @@ const NominaGeneral = ({ navigation }: NominaGeneralProps) => {
           </View>
         ))}
       </View>
-
-      {/* Botones */}
-      {/* <View style={stylesGeneral.buttonContainer}>
-        <TouchableOpacity
-          style={stylesGeneral.buttonNomina}
-          onPress={handleVerContratos}
-        >
-           <FontAwesome5 name="file-contract" size={16} color="#FFF" style={{ marginRight: 10 }} />
-          <Text style={stylesGeneral.buttonNominaText}>Contratos</Text>
-        </TouchableOpacity>
-       
-      </View> */}
     </ScrollView>
   );
 };

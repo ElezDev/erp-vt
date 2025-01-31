@@ -47,7 +47,7 @@ const BannerNomina = ({ navigation }: { navigation: NavigationProp<any> }) => {
             borderRadius: 20,
           }}
         >
-          <Text style={{ ...styles.title, fontSize: 14 }}>Reporte general</Text>
+          <Text style={{ ...styles.title, fontSize: 14 }}>Novedades</Text>
         </TouchableOpacity>
         <TouchableOpacity
         onPress={handleVerContratos}
