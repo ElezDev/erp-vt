@@ -1,119 +1,155 @@
-import React, { useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Alert } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import Entypo from '@expo/vector-icons/Entypo';
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  Alert,
+  ActivityIndicator,
+} from "react-native";
+import Animated, { FadeInUp, FadeInDown } from "react-native-reanimated";
+import Icon from "react-native-vector-icons/MaterialIcons";
+import Entypo from "@expo/vector-icons/Entypo";
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import { NavigationProp, useRoute, RouteProp } from "@react-navigation/native";
+import axios from "axios";
+import BASE_URL from "src/Config/config";
+import color from "src/constant/color";
+import { stylesDetalleNomina } from "./styles/DetalleNominaStyles";
+import { NominaModel } from "./types/NominaModel";
+import { ContratosModel } from "../contratos/ContratosTypes";
 
-import { stylesDetalleNomina } from './styles/DetalleNominaStyles';
-import ModalVacaciones from './ModalVacaciones';
-import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
-import { NavigationProp } from '@react-navigation/native';
-import RetencionesPage from './NominaRetenciones';
-
-
-const contrato = {
-  numContrato: "12345",
-  denegacion: "No aplica",
-  netoPagado: 5000000,
-  totalSegSocial: 1200000,
-  parafiscales: 800000,
-  apropiaciones: 1500000,
-  costoTrabajador: 8500000,
+type RouteParams = {
+  DetalleNominaContrato: {
+    contrato: ContratosModel;
+  };
 };
 
-const DetalleNominaContrato = ({ navigation }: { navigation: NavigationProp<any> }) => {
-  // const [modalVisible, setModalVisible] = useState(false);
+const DetalleNominaContrato = ({
+  navigation,
+}: {
+  navigation: NavigationProp<any>;
+}) => {
+  const route = useRoute<RouteProp<RouteParams, "DetalleNominaContrato">>();
+  const contrato = route.params.contrato;
 
-  const handleVacaciones = () => {
-    navigation.navigate("Vacaciones");
-  };
+  const [nomina, setNomina] = useState<NominaModel | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const handleIncapacidades = () => {
-    navigation.navigate("Incapacidades");
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}nominas_by_contrato/${contrato.id}`);
+        const data = response.data as NominaModel[];
+        if (data.length > 0) {
+          setNomina(data[0]);
+        } else {
+          setNomina(null); 
+        }
+      } catch (error) {
+        Alert.alert("Error", "No se pudieron cargar los datos de la nómina.");
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <View style={stylesDetalleNomina.loadingContainer}>
+        <ActivityIndicator size="large" color={color.accentColor} />
+        <Text style={stylesDetalleNomina.loadingText}>Cargando datos...</Text>
+      </View>
+    );
   }
 
-  const handleInfocontrato = () => {
-    // navigation.navigate("DetalleContrato");
-    Alert.alert("Info", "Detalle del contrato");
-  };
-
-  const handleRetenciones = () => {
-    navigation.navigate("Retenciones");
-
+  if (!nomina) {
+    return (
+      <View style={stylesDetalleNomina.container}>
+        <Text style={stylesDetalleNomina.noDataText}>
+          No hay datos de nómina disponibles para este contrato.
+        </Text>
+      </View>
+    );
   }
-
 
   return (
     <ScrollView style={stylesDetalleNomina.container}>
       {/* Encabezado */}
-      <View style={stylesDetalleNomina.headerContainer}>
-      </View>
+      <Animated.View entering={FadeInUp.duration(500)}>
+        <View style={stylesDetalleNomina.headerContainer}></View>
+      </Animated.View>
 
       {/* Datos del Contrato */}
-      <View style={stylesDetalleNomina.card}>
+      <Animated.View entering={FadeInUp.delay(200).duration(600)} style={stylesDetalleNomina.card}>
         <Text style={stylesDetalleNomina.title}>Datos del Contrato</Text>
         <View style={stylesDetalleNomina.row}>
           <Text style={stylesDetalleNomina.label}>Número de Contrato:</Text>
-          <Text style={stylesDetalleNomina.value}>{contrato.numContrato}</Text>
+          <Text style={stylesDetalleNomina.value}>{contrato.numeroContrato}</Text>
         </View>
         <View style={stylesDetalleNomina.row}>
-          <Text style={stylesDetalleNomina.label}>Denegación:</Text>
-          <Text style={stylesDetalleNomina.value}>{contrato.denegacion}</Text>
+          <Text style={stylesDetalleNomina.label}>Devengado:</Text>
+          <Text style={stylesDetalleNomina.value}>{nomina.devengado.toLocaleString()}</Text>
         </View>
-      </View>
+      </Animated.View>
 
       {/* Cálculos Financieros */}
-      <View style={stylesDetalleNomina.card}>
+      <Animated.View entering={FadeInUp.delay(400).duration(600)} style={stylesDetalleNomina.card}>
         <Text style={stylesDetalleNomina.title}>Cálculos Financieros</Text>
         <View style={stylesDetalleNomina.row}>
           <Text style={stylesDetalleNomina.label}>Neto Pagado:</Text>
-          <Text style={stylesDetalleNomina.value}>${contrato.netoPagado.toLocaleString()}</Text>
+          <Text style={stylesDetalleNomina.value}>
+            ${nomina.netoPagado.toLocaleString()}
+          </Text>
         </View>
         <View style={stylesDetalleNomina.row}>
           <Text style={stylesDetalleNomina.label}>Total Seg. Social:</Text>
-          <Text style={stylesDetalleNomina.value}>${contrato.totalSegSocial.toLocaleString()}</Text>
+          <Text style={stylesDetalleNomina.value}>
+            ${nomina.totalDectoSegSocial.toLocaleString()}
+          </Text>
         </View>
         <View style={stylesDetalleNomina.row}>
           <Text style={stylesDetalleNomina.label}>Parafiscales:</Text>
-          <Text style={stylesDetalleNomina.value}>${contrato.parafiscales.toLocaleString()}</Text>
+          <Text style={stylesDetalleNomina.value}>
+            ${nomina.aportFiscales.toLocaleString()}
+          </Text>
         </View>
         <View style={stylesDetalleNomina.row}>
           <Text style={stylesDetalleNomina.label}>Apropiaciones:</Text>
-          <Text style={stylesDetalleNomina.value}>${contrato.apropiaciones.toLocaleString()}</Text>
+          <Text style={stylesDetalleNomina.value}>
+            ${nomina.totalApropiaciones.toLocaleString()}
+          </Text>
         </View>
         <View style={stylesDetalleNomina.row}>
           <Text style={stylesDetalleNomina.label}>Costo Trabajador:</Text>
-          <Text style={stylesDetalleNomina.value}>${contrato.costoTrabajador.toLocaleString()}</Text>
+          <Text style={stylesDetalleNomina.value}>
+            ${nomina.valorTotalPorTrabajador.toLocaleString()}
+          </Text>
         </View>
-      </View>
+      </Animated.View>
 
       {/* Acciones */}
-      <View style={stylesDetalleNomina.actionsContainer}>
-        <TouchableOpacity style={stylesDetalleNomina.actionButton} onPress={handleVacaciones}>
+      <Animated.View entering={FadeInDown.delay(500).duration(600)} style={stylesDetalleNomina.actionsContainer}>
+        <TouchableOpacity style={stylesDetalleNomina.actionButton} onPress={() => navigation.navigate("UserVacacionesView",{ contrato })}>
           <Icon name="beach-access" size={28} color="#fff" />
           <Text style={stylesDetalleNomina.actionText}>Vacaciones</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={stylesDetalleNomina.actionButton} onPress={handleInfocontrato}>
-        <Entypo name="info" size={24} color="#fff" />
+        <TouchableOpacity style={stylesDetalleNomina.actionButton} onPress={() => Alert.alert("Info", "Detalle del contrato")}>
+          <Entypo name="info" size={24} color="#fff" />
           <Text style={stylesDetalleNomina.actionText}>Info</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={stylesDetalleNomina.actionButton} onPress={handleIncapacidades}>
-        <FontAwesome5 name="briefcase-medical" size={24} color="#fff" />
+        <TouchableOpacity style={stylesDetalleNomina.actionButton} onPress={() => navigation.navigate("Incapacidades")}>
+          <FontAwesome5 name="briefcase-medical" size={24} color="#fff" />
           <Text style={stylesDetalleNomina.actionText}>Incapacidades</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={stylesDetalleNomina.actionButton} onPress={handleRetenciones}>
-        <FontAwesome5 name="comments-dollar" size={24} color="#fff" />
+        <TouchableOpacity style={stylesDetalleNomina.actionButton} onPress={() => navigation.navigate("Retenciones")}>
+          <FontAwesome5 name="comments-dollar" size={24} color="#fff" />
           <Text style={stylesDetalleNomina.actionText}>Retenciones</Text>
         </TouchableOpacity>
-      </View>
-      
-
-      {/* Modal para Vacaciones */}
-      <View>
-      {/* <ModalVacaciones
-        visible={modalVisible}
-        onClose={() => setModalVisible(false)}
-      /> */}
-    </View>
+      </Animated.View>
     </ScrollView>
   );
 };

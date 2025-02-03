@@ -111,6 +111,30 @@ closeButton:{
 closeButtonText:{
   fontSize: 16,
   color: '#fff',
-}
+}, 
+loadingContainer: {
+  flex: 1,
+  justifyContent: "center",
+  alignItems: "center",
+},
 
-  });
+loadingText: {
+  marginTop: 10,
+  fontSize: 16,
+  color: "#333",
+},
+
+noDataText: {
+  fontSize: 20,
+  color: color.accentColor,
+  textAlign: "center",
+  marginTop: 20,
+  fontWeight: "bold",
+  marginBottom: 100,
+  paddingHorizontal: 20,
+  backgroundColor: "#f9f9f9",
+  borderRadius: 10,
+  padding: 20,
+},
+
+});

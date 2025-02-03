@@ -49,7 +49,6 @@ const InfoContratoUserPage = ({ navigation }: InfoContratoProps) => {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      console.log(response.data, "data de contratos");
       setContratoDetails(response.data as ContratosModel);
     } catch (error) {
       console.error("Error al cargar el contrato:", error);

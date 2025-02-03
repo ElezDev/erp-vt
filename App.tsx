@@ -14,7 +14,7 @@ import DetalleContratoPage from "screens/components/contratos/DetalleContratoPag
 import { ContratosModel } from "screens/components/contratos/ContratosTypes";
 import DetalleNominaContrato from "screens/components/nomina/DetalleNominaContrato";
 import ContratosPage from "screens/components/contratos/ContratosPage";
-import VacacionesView from "screens/components/nomina/ModalVacaciones";
+import VacacionesView from "screens/components/nomina/NominaVacaciones";
 import IncapacidadesView from "screens/components/nomina/Incapacidades";
 import RetencionesPage from "screens/components/nomina/NominaRetenciones";
 import { EventRegister } from "react-native-event-listeners";
@@ -24,6 +24,7 @@ import StoryDetail from "screens/components/Stories/StoryDetail";
 import Nomina from "screens/components/nomina/Nomina";
 import NominaGeneral from "screens/components/nomina/NominaGeneral";
 import InfoContratoUserPage from "screens/components/User/ContratosUser/InfocontratosUser";
+import VacacionesUserView from "screens/components/User/Vacaciones/VacacionesUser";
 
 export type RootStackParamList = {
   Indicator: undefined;
@@ -38,6 +39,7 @@ export type RootStackParamList = {
   DetalleNominaContrato: { contrato: ContratosModel };
   Contratos: undefined;
   Vacaciones: undefined;
+  UserVacacionesView: { contrato: ContratosModel };
   Incapacidades: undefined;
   Retenciones: undefined;
   StoryDetail: { stories: any[]; initialIndex: number };
@@ -56,7 +58,7 @@ export default function App() {
       console.log("DarkMode", data);
     });
     return () => {
-      EventRegister.removeEventListener(listener);
+      // EventRegister.removeEventListener(listener);
     };
   }, [darkMode]);
 
@@ -147,9 +149,11 @@ export default function App() {
               <Stack.Screen
               name="InfoContratoPage"
               component={InfoContratoUserPage}
-
-              //this is the title of the screen
-
+            />
+            <Stack.Screen
+              name="UserVacacionesView"
+              component={VacacionesUserView}
+              options={{ headerShown: true , title: "Mis Vacaciones" }}
             />
           </Stack.Navigator>
         </NavigationContainer>
