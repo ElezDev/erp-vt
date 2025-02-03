@@ -1,7 +1,4 @@
 
-
-
-
 import React, { useEffect, useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Text, StyleSheet, View, ActivityIndicator } from "react-native";
@@ -10,13 +7,11 @@ import Animated from "react-native-reanimated";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import ProfileScreen from "../profile/ProfileScreen";
-import Nomina from "../nomina/Nomina";
 import HomeScreen from "../home/HomeScreen";
-import NominaGeneral from "../nomina/NominaGeneral";
 import CustomHeader from "../navigations/CustomHeader";
 import color from "src/constant/color";
-import homeUser from "../User/home/homeUser";
 import Banners from "../nomina/TipoNomina";
+import InfoContratoUserPage from "../User/ContratosUser/InfocontratosUser";
 
 const Tab = createBottomTabNavigator();
 
@@ -62,10 +57,12 @@ const BottomTabNavigator = () => {
   }
 
   const screens = [
-    { name: "Home", component: HomeScreen, icon: "home-outline", roles: ["Admin", "MARKETING DIGITAL"] },
+    { name: "Home", component: HomeScreen, icon: "home-outline", roles: ["Admin", "MARKETING DIGITAL",  "DESARROLADOR JR"] },
+    
     { name: "Nomina", component: Banners, icon: "wallet", roles: ["Admin"] },
+    { name: "Nomina", component: InfoContratoUserPage, icon: "wallet", roles: ["DESARROLADOR JR"] },
     { name: "Profile", component: ProfileScreen, icon: "person-outline", roles: ["Admin", "MARKETING DIGITAL", "DESARROLADOR JR"] },
-    { name: "Home", component: homeUser, icon: "home-outline", roles: ["DESARROLADOR JR"] },
+    
   ];
 
   const filteredScreens = screens.filter((screen) =>

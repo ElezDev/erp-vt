@@ -23,6 +23,7 @@ import theme from "theme/theme";
 import StoryDetail from "screens/components/Stories/StoryDetail";
 import Nomina from "screens/components/nomina/Nomina";
 import NominaGeneral from "screens/components/nomina/NominaGeneral";
+import InfoContratoUserPage from "screens/components/User/ContratosUser/InfocontratosUser";
 
 export type RootStackParamList = {
   Indicator: undefined;
@@ -41,6 +42,7 @@ export type RootStackParamList = {
   Retenciones: undefined;
   StoryDetail: { stories: any[]; initialIndex: number };
   NominaGeneral: undefined;
+  InfoContratoPage: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -141,6 +143,14 @@ export default function App() {
              component={NominaGeneral}
              options={{ headerShown: true, title: "Nómina General" }} 
              />
+
+              <Stack.Screen
+              name="InfoContratoPage"
+              component={InfoContratoUserPage}
+
+              //this is the title of the screen
+
+            />
           </Stack.Navigator>
         </NavigationContainer>
       {/* </themeContext.Provider> */}
