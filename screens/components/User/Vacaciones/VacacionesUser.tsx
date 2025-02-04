@@ -23,7 +23,7 @@ import BASE_URL from "src/Config/config";
 import color from "src/constant/color";
 import { ContratosModel } from "screens/components/contratos/ContratosTypes";
 import { NavigationProp, RouteProp, useRoute } from "@react-navigation/native";
-import Toast from "react-native-toast-message"; 
+import Toast from "react-native-toast-message";
 
 
 const estadoColors: { [key: string]: string } = {
@@ -95,7 +95,11 @@ const VacacionesUserView = ( {navigation}: {
   
   const handleEnviar = async () => {
     if (selectedIds.length === 0) {
-      Alert.alert("Error", "Debes seleccionar al menos un período de vacaciones.");
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: "Debes seleccionar al menos un período de vacaciones.",
+      });
       return;
     }
   
@@ -112,19 +116,35 @@ const VacacionesUserView = ( {navigation}: {
       });
   
       if (response.status === 201) {
-        Alert.alert("Éxito", "Solicitud enviada correctamente.", [
-          { text: "Aceptar", onPress: () => setModalVisible(false) }, 
-        ]);
+        Toast.show({
+          type: "success",
+          text1: "Éxito",
+          text2: "Solicitud enviada correctamente.",
+          position: 'top', 
+          visibilityTime: 3000,
+          text1Style: { fontSize: 20 }, 
+          text2Style: { fontSize: 18 }, 
+        });
   
         setSelectedIds([]);
         setFechaInicial(new Date());
         setComentario("");
+        setModalVisible(false);
       }
     } catch (error) {
       console.error("Error enviando la solicitud:", error);
-      Alert.alert("Error", "No se pudo enviar la solicitud.");
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: "No se pudo enviar la solicitud.",
+        position: 'top', 
+          visibilityTime: 3000,
+          text1Style: { fontSize: 20 }, 
+          text2Style: { fontSize: 18 }, 
+      });
     }
   };
+  
   
 
   const vacacionesFiltradas = busqueda

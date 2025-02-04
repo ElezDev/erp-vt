@@ -25,6 +25,7 @@ import NominaGeneral from "screens/components/nomina/NominaGeneral";
 import InfoContratoUserPage from "screens/components/User/ContratosUser/InfocontratosUser";
 import VacacionesUserView from "screens/components/User/Vacaciones/VacacionesUser";
 import EstadoObservaciones from "screens/components/User/Vacaciones/Comment";
+import Toast from "react-native-toast-message";
 
 export type RootStackParamList = {
   Indicator: undefined;
@@ -159,6 +160,8 @@ export default function App() {
             options={{ headerShown: true, title: "Observaciones" }}
           />
         </Stack.Navigator>
+        <Toast />
+
       </NavigationContainer>
       {/* </themeContext.Provider> */}
 
