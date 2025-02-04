@@ -7,5 +7,6 @@ export default {
   black: "#000",
   white: "#fff",
   primaryLighter: "#ffee9c",
-  secondaryLight: "#fff7da"
+  secondaryLight: "#FBFFDA00"
+  
 };

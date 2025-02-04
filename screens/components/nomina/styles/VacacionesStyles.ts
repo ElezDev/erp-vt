@@ -146,7 +146,14 @@ import color from "src/constant/color";
     modalText: {
       fontSize: 16,
       marginBottom: 20,
-    }
+    },
+    buttonObservaciones: {
+      backgroundColor: color.accentColor,
+      padding: 10,
+      borderRadius: 5,
+      marginTop: 10,
+      alignItems: 'center',
+    },
   });
 
   

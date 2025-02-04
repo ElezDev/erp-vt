@@ -23,9 +23,11 @@ import BASE_URL from "src/Config/config";
 import color from "src/constant/color";
 import { ContratosModel } from "screens/components/contratos/ContratosTypes";
 import { NavigationProp, RouteProp, useRoute } from "@react-navigation/native";
+import Toast from "react-native-toast-message"; 
+
 
 const estadoColors: { [key: string]: string } = {
-  PENDIENTE: color.primaryColor,
+  PENDIENTE: "#FDFDFDFF",
   LIQUIDADO: "#32CD32",
   PORAUTORIZAR: color.accentColor,
 };
@@ -42,6 +44,7 @@ type RouteParams = {
 const VacacionesUserView = ( {navigation}: {
   navigation: NavigationProp<any>;
 }) => {
+
   const route = useRoute<RouteProp<RouteParams, "UserVacacionesView">>();
   const contrato = route.params.contrato;
   const [vacaciones, setVacaciones] = useState<Vacacion[]>([]);
@@ -89,48 +92,40 @@ const VacacionesUserView = ( {navigation}: {
       : [...selectedIds, id];
     setSelectedIds(nuevosSeleccionados);
   };
-
+  
   const handleEnviar = async () => {
     if (selectedIds.length === 0) {
-      Alert.alert(
-        "Error",
-        "Debes seleccionar al menos un período de vacaciones."
-      );
+      Alert.alert("Error", "Debes seleccionar al menos un período de vacaciones.");
       return;
     }
-
+  
     const datos = {
       periodos: selectedIds,
       fechaInicial: fechaInicial.toISOString().split("T")[0],
-      comentario: comentario,
+      comentario,
     };
-
-    console.log("Datos a enviar:", datos);
-
+  
     try {
       const token = await AsyncStorage.getItem("access_token");
-      const response = await axios.post(
-        `${BASE_URL}create_solicitud_vacaciones`,
-        datos,
-        {
-          headers: { Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        }
-      );
-
-      if (response.status === 200) {
-        Alert.alert("Éxito", "Solicitud de vacaciones enviada correctamente.");
+      const response = await axios.post(`${BASE_URL}create_solicitud_vacaciones`, datos, {
+        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+      });
+  
+      if (response.status === 201) {
+        Alert.alert("Éxito", "Solicitud enviada correctamente.", [
+          { text: "Aceptar", onPress: () => setModalVisible(false) }, 
+        ]);
+  
         setSelectedIds([]);
         setFechaInicial(new Date());
         setComentario("");
-        setModalVisible(false);
       }
     } catch (error) {
       console.error("Error enviando la solicitud:", error);
-      Alert.alert(error.message);
+      Alert.alert("Error", "No se pudo enviar la solicitud.");
     }
   };
+  
 
   const vacacionesFiltradas = busqueda
     ? vacaciones.filter((v) => v.periodo.toString().includes(busqueda))
@@ -155,10 +150,19 @@ const VacacionesUserView = ( {navigation}: {
           true: "#ff6605",
         }}
       />
+      <TouchableOpacity
+      style={stylesVacaciones.buttonObservaciones}
+      onPress={() => {
+        navigation.navigate("ObservacionesVacaciones", {
+          idSolicitud: item.idSolicitud,
+        });
+      }}
+    >
+      <Text style={stylesVacaciones.buttonText}>Ver Observaciones</Text>
+    </TouchableOpacity>
     </View>
   );
 
-  // Obtener los períodos seleccionados
   const periodosSeleccionados = vacaciones
     .filter((v) => selectedIds.includes(v.id))
     .map((v) => v.periodo)
@@ -257,8 +261,7 @@ const VacacionesUserView = ( {navigation}: {
               </TouchableOpacity>
               <TouchableOpacity
                 style={stylesVacaciones.modalButtonConfirm}
-                onPress={handleEnviar}
-              >
+                onPress={handleEnviar}>
                 <Text style={stylesVacaciones.modalButtonText}>Confirmar</Text>
               </TouchableOpacity>
             </View>

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Provider as PaperProvider } from "react-native-paper";
@@ -25,6 +24,7 @@ import Nomina from "screens/components/nomina/Nomina";
 import NominaGeneral from "screens/components/nomina/NominaGeneral";
 import InfoContratoUserPage from "screens/components/User/ContratosUser/InfocontratosUser";
 import VacacionesUserView from "screens/components/User/Vacaciones/VacacionesUser";
+import EstadoObservaciones from "screens/components/User/Vacaciones/Comment";
 
 export type RootStackParamList = {
   Indicator: undefined;
@@ -45,6 +45,7 @@ export type RootStackParamList = {
   StoryDetail: { stories: any[]; initialIndex: number };
   NominaGeneral: undefined;
   InfoContratoPage: undefined;
+  ObservacionesVacaciones: { idSolicitud: number };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -74,90 +75,94 @@ export default function App() {
       {/* <themeContext.Provider
         value={darkMode === true ? theme.dark : theme.light}
       > */}
-        <NavigationContainer>
-          <Stack.Navigator initialRouteName="Indicator">
-            <Stack.Screen
-              name="Indicator"
-              component={IndicatorScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Login"
-              component={LoginScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Main"
-              component={BottomTabNavigator}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="CategoryDetail"
-              component={CategoryDetailScreen}
-              options={{ title: "Detalle de Categoría" }}
-            />
-            <Stack.Screen
-              name="NewsDetail"
-              component={NewsDetailScreen}
-              options={{ title: "Detalle de Noticia" }}
-            />
-            <Stack.Screen name="Notification" component={notificationsScreen} />
-            <Stack.Screen
-              name="DetalleContrato"
-              component={DetalleContratoPage}
-            />
-            <Stack.Screen
-              name="DetalleNominaContrato"
-              component={DetalleNominaContrato}
-              options={{ title: " Detalle Nomina" }}
-            />
-            <Stack.Screen name="Contratos" component={ContratosPage} />
-            <Stack.Screen
-              name="Vacaciones"
-              component={VacacionesView}
-              options={{
-                title: " Mis Vacaciones",
-              }}
-            />
-
-            <Stack.Screen
-              name="Incapacidades"
-              component={IncapacidadesView}
-              options={{
-                title: "Incapacidades",
-              }}
-            />
-
-            <Stack.Screen
-              name="Retenciones"
-              component={RetencionesPage}
-              options={{
-                title: "Deducciones y retenciones",
-              }}
-            />
-            <Stack.Screen
-             name="StoryDetail"
-             component={StoryDetail}
-             options={{ headerShown: false }} 
-             />
-            <Stack.Screen
-             name="NominaGeneral"
-             component={NominaGeneral}
-             options={{ headerShown: true, title: "Nómina General" }} 
-             />
-
-              <Stack.Screen
-              name="InfoContratoPage"
-              component={InfoContratoUserPage}
-            />
-            <Stack.Screen
-              name="UserVacacionesView"
-              component={VacacionesUserView}
-              options={{ headerShown: true , title: "Mis Vacaciones" }}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Indicator">
+          <Stack.Screen
+            name="Indicator"
+            component={IndicatorScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Main"
+            component={BottomTabNavigator}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="CategoryDetail"
+            component={CategoryDetailScreen}
+            options={{ title: "Detalle de Categoría" }}
+          />
+          <Stack.Screen
+            name="NewsDetail"
+            component={NewsDetailScreen}
+            options={{ title: "Detalle de Noticia" }}
+          />
+          <Stack.Screen name="Notification" component={notificationsScreen} />
+          <Stack.Screen
+            name="DetalleContrato"
+            component={DetalleContratoPage}
+          />
+          <Stack.Screen
+            name="DetalleNominaContrato"
+            component={DetalleNominaContrato}
+            options={{ title: " Detalle Nomina" }}
+          />
+          <Stack.Screen name="Contratos" component={ContratosPage} />
+          <Stack.Screen
+            name="Vacaciones"
+            component={VacacionesView}
+            options={{
+              title: " Mis Vacaciones",
+            }}
+          />
+          <Stack.Screen
+            name="Incapacidades"
+            component={IncapacidadesView}
+            options={{
+              title: "Incapacidades",
+            }}
+          />
+          <Stack.Screen
+            name="Retenciones"
+            component={RetencionesPage}
+            options={{
+              title: "Deducciones y retenciones",
+            }}
+          />
+          <Stack.Screen
+            name="StoryDetail"
+            component={StoryDetail}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="NominaGeneral"
+            component={NominaGeneral}
+            options={{ headerShown: true, title: "Nómina General" }}
+          />
+          <Stack.Screen
+            name="InfoContratoPage"
+            component={InfoContratoUserPage}
+          />
+          <Stack.Screen
+            name="UserVacacionesView"
+            component={VacacionesUserView}
+            options={{ headerShown: true, title: "Mis Vacaciones" }}
+          />
+          <Stack.Screen
+            name="ObservacionesVacaciones"
+            component={EstadoObservaciones}
+            options={{ headerShown: true, title: "Observaciones" }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
       {/* </themeContext.Provider> */}
+
+      {/* Agregar el componente Toast aquí */}
     </PaperProvider>
   );
 }
