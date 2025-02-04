@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { 
-  View, Text, StyleSheet, FlatList, Image, ActivityIndicator, RefreshControl 
+  View, Text, FlatList, Image, ActivityIndicator, RefreshControl 
 } from 'react-native';
 import axios from 'axios';
 import BASE_URL from 'src/Config/config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RouteProp, useRoute } from '@react-navigation/native';
+import { stylesCommnet } from './Styles/commentStyles';
 
 const ObservacionesChat = () => {
   type RouteParams = {
@@ -65,7 +66,7 @@ const ObservacionesChat = () => {
 
   if (loading) {
     return (
-      <View style={styles.loadingContainer}>
+      <View style={stylesCommnet.loadingContainer}>
         <ActivityIndicator size="large" color="#6200ea" />
       </View>
     );
@@ -73,27 +74,27 @@ const ObservacionesChat = () => {
 
   if (error) {
     return (
-      <View style={styles.errorContainer}>
-        <Text style={styles.errorText}>Error: {error}</Text>
+      <View style={stylesCommnet.errorContainer}>
+        <Text style={stylesCommnet.errorText}>Error: {error}</Text>
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
+    <View style={stylesCommnet.container}>
       <FlatList
         data={observaciones}
         renderItem={({ item }) => (
-          <View style={styles.messageContainer}>
+          <View style={stylesCommnet.messageContainer}>
             <Image
               source={{ uri: item.usuario.persona.rutaFotoUrl || 'https://placehold.co/400' }}
-              style={styles.avatar}
+              style={stylesCommnet.avatar}
               onError={() => console.log("Image failed to load")}
             />
-            <View style={styles.messageContent}>
-              <Text style={styles.userName}>{`${item.usuario.persona.nombre1} ${item.usuario.persona.apellido1}`}</Text>
-              <Text style={styles.messageText}>{item.observacion}</Text>
-              <Text style={styles.messageDate}>
+            <View style={stylesCommnet.messageContent}>
+              <Text style={stylesCommnet.userName}>{`${item.usuario.persona.nombre1} ${item.usuario.persona.apellido1}`}</Text>
+              <Text style={stylesCommnet.messageText}>{item.observacion}</Text>
+              <Text style={stylesCommnet.messageDate}>
                 {new Date(item.created_at).toLocaleDateString('es-ES', {
                   day: 'numeric', month: 'short', year: 'numeric',
                   hour: '2-digit', minute: '2-digit'
@@ -103,10 +104,10 @@ const ObservacionesChat = () => {
           </View>
         )}
         keyExtractor={(item) => item.id.toString()}
-        contentContainerStyle={styles.listContent}
+        contentContainerStyle={stylesCommnet.listContent}
         ListEmptyComponent={
-          <View style={styles.emptyContainer}>
-            <Text style={styles.emptyText}>No hay observaciones</Text>
+          <View style={stylesCommnet.emptyContainer}>
+            <Text style={stylesCommnet.emptyText}>No hay observaciones</Text>
           </View>
         }
         refreshControl={
@@ -117,82 +118,6 @@ const ObservacionesChat = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f0f4f8',
-    padding: 16,
-  },
-  listContent: {
-    paddingBottom: 16,
-  },
-  messageContainer: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    marginBottom: 16,
-    backgroundColor: '#ffffff',
-    padding: 16,
-    borderRadius: 12,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 3,
-  },
-  avatar: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    marginRight: 16,
-    borderWidth: 2,
-    borderColor: '#e0e0e0',
-  },
-  messageContent: {
-    flex: 1,
-  },
-  userName: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#333',
-    marginBottom: 8,
-  },
-  messageText: {
-    fontSize: 14,
-    color: '#555',
-    marginBottom: 8,
-    lineHeight: 20,
-  },
-  messageDate: {
-    fontSize: 12,
-    color: '#888',
-    textAlign: 'right',
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f0f4f8',
-  },
-  errorContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f0f4f8',
-  },
-  errorText: {
-    fontSize: 16,
-    color: '#ff4444',
-  },
-  emptyContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f0f4f8',
-  },
-  emptyText: {
-    fontSize: 16,
-    color: '#888',
-  },
-});
+
 
 export default ObservacionesChat;

@@ -29,14 +29,16 @@ interface InfoContratoProps {
 }
 
 const InfoContratoUserPage = ({ navigation }: InfoContratoProps) => {
-  const [contratoDetails, setContratoDetails] = useState<ContratosModel | null>(null);
+  const [contratoDetails, setContratoDetails] = useState<ContratosModel | null>(
+    null
+  );
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-    const [imageError, setImageError] = useState(false);
-      const handleSelectContrato = (contrato: ContratosModel) => {
-        navigation.navigate("DetalleNominaContrato", { contrato });
-      };
-  
+  const [imageError, setImageError] = useState(false);
+  const handleSelectContrato = (contrato: ContratosModel) => {
+    navigation.navigate("DetalleNominaContrato", { contrato });
+  };
+  console.log(contratoDetails?.id, "desde informazion");
 
   const fetchContrato = async () => {
     try {
@@ -60,7 +62,7 @@ const InfoContratoUserPage = ({ navigation }: InfoContratoProps) => {
 
   useEffect(() => {
     fetchContrato();
-  }, []); 
+  }, []);
 
   useEffect(() => {
     if (contratoDetails) {
@@ -68,7 +70,7 @@ const InfoContratoUserPage = ({ navigation }: InfoContratoProps) => {
         title: `${contratoDetails.persona.nombre1} ${contratoDetails.persona.apellido1}`,
       });
     }
-  }, [contratoDetails, navigation]); 
+  }, [contratoDetails, navigation]);
 
   if (loading) {
     return (
@@ -97,108 +99,111 @@ const InfoContratoUserPage = ({ navigation }: InfoContratoProps) => {
   }
 
   return (
-      <ScrollView style={stylesContrato.container}>
-        <View style={stylesContrato.body}>
-      
-          {/* Lado Derecho: Información del contrato y persona */}
-          <View style={stylesContrato.rightSide}>
-            <View style={stylesContrato.cardHeader}>
+    <ScrollView style={stylesContrato.container}>
+      <View style={stylesContrato.body}>
+        {/* Lado Derecho: Información del contrato y persona */}
+        <View style={stylesContrato.rightSide}>
+          <View style={stylesContrato.cardHeader}>
             <Image
-                      source={
-                        imageError || !contratoDetails.persona.rutaFotoUrl
-                          ? require("../../../../assets/images/avatar.png") // Imagen por defecto local
-                          : { uri: contratoDetails.persona.rutaFotoUrl }
-                      }
-                      style={stylesDetalle.avatar}
-                      onError={() => setImageError(true)} // Si falla, cambia a la imagen por defecto
-                    />
-              <View style={stylesContrato.cardHeaderText}>
-                <Text style={[stylesContrato.title, stylesContrato.bold]}>
-                  {contratoDetails.numeroContrato}
-                </Text>
-                <Text style={stylesContrato.subtitle}>
-                  {contratoDetails.persona.nombre1}{" "}
-                  {contratoDetails.persona.apellido1}
-                </Text>
-                <Text style={stylesContrato.jobTitle}>
-                  {contratoDetails.persona.perfil}
-                </Text>
-              </View>
+              source={
+                imageError || !contratoDetails.persona.rutaFotoUrl
+                  ? require("../../../../assets/images/avatar.png") 
+                  : { uri: contratoDetails.persona.rutaFotoUrl }
+              }
+              style={stylesDetalle.avatar}
+              onError={() => setImageError(true)} 
+            />
+            <View style={stylesContrato.cardHeaderText}>
+              <Text style={[stylesContrato.title, stylesContrato.bold]}>
+                {contratoDetails.numeroContrato}
+              </Text>
+              <Text style={stylesContrato.subtitle}>
+                {contratoDetails.persona.nombre1}{" "}
+                {contratoDetails.persona.apellido1}
+              </Text>
+              <Text style={stylesContrato.jobTitle}>
+                {contratoDetails.persona.perfil}
+              </Text>
             </View>
-  
-            <View style={stylesContrato.detailsContainer}>
-              <View style={stylesContrato.infoItem}>
-                <Icon name="calendar" size={20} color="#ff8c00" />
-                <Text style={stylesContrato.info}>
-                  Fecha de Contratación: {contratoDetails.fechaContratacion}
+          </View>
+
+          <View style={stylesContrato.detailsContainer}>
+            <View style={stylesContrato.infoItem}>
+              <Icon name="calendar" size={20} color="#ff8c00" />
+              <Text style={stylesContrato.info}>
+                Fecha de Contratación: {contratoDetails.fechaContratacion}
+              </Text>
+            </View>
+            <View style={stylesContrato.infoItem}>
+              <Icon name="money" size={20} color="#ff8c00" />
+              <Text style={stylesContrato.info}>
+                Valor Total: $
+                {contratoDetails.valorTotalContrato.toLocaleString()}
+              </Text>
+            </View>
+            <View style={stylesContrato.infoItem}>
+              <Icon
+                name={
+                  contratoDetails.estado.estado === "ACTIVO" ? "check" : "times"
+                }
+                size={20}
+                color={
+                  contratoDetails.estado.estado === "ACTIVO" ? "green" : "red"
+                }
+              />
+              <Text style={stylesContrato.info}>
+                Estado:
+                <Text
+                  style={
+                    contratoDetails.estado.estado === "ACTIVO"
+                      ? stylesContrato.activo
+                      : stylesContrato.inactivo
+                  }
+                >
+                  {contratoDetails.estado.estado}
                 </Text>
-              </View>
-              <View style={stylesContrato.infoItem}>
-                <Icon name="money" size={20} color="#ff8c00" />
-                <Text style={stylesContrato.info}>
-                  Valor Total: $
-                  {contratoDetails.valorTotalContrato.toLocaleString()}
-                </Text>
-              </View>
-              <View style={stylesContrato.infoItem}>
-                <Icon
-                  name={contratoDetails.estado.estado === "ACTIVO" ? "check" : "times"}
-                  size={20}
-                  color={contratoDetails.estado.estado === "ACTIVO" ? "green" : "red"}
-                />
-                <Text style={stylesContrato.info}>
-                  Estado:
-                  <Text
-                    style={
-                      contratoDetails.estado.estado === "ACTIVO"
-                        ? stylesContrato.activo
-                        : stylesContrato.inactivo
-                    }
-                  >
-                    {contratoDetails.estado.estado}
-                  </Text>
-                </Text>
-              </View>
+              </Text>
             </View>
           </View>
         </View>
-  
-        {/* Sección con tarjetas adicionales */}
-        <View style={stylesContrato.cardGrid}>
-        
-            <View  style={stylesContrato.cardItem}>
-              <Text style={stylesContrato.cardTitle}>Acerca del Contrato</Text>
-              <Text style={stylesContrato.cardContent}>
-                {contratoDetails.fechaContratacion}
-                {"\n"}
-                {contratoDetails.fechaFinalContrato}
-                {"\n"}
-                {contratoDetails.salario.rol.name}
-                {"\n"}
-                {contratoDetails.objetoContrato}
-                {"\n"}
-                {contratoDetails.salario.valor}
-              </Text>
-            </View>
+      </View>
+
+      {/* Sección con tarjetas adicionales */}
+      <View style={stylesContrato.cardGrid}>
+        <View style={stylesContrato.cardItem}>
+          <Text style={stylesContrato.cardTitle}>Acerca del Contrato</Text>
+          <Text style={stylesContrato.cardContent}>
+            {contratoDetails.fechaContratacion}
+            {"\n"}
+            {contratoDetails.fechaFinalContrato}
+            {"\n"}
+            {contratoDetails.salario.rol.name}
+            {"\n"}
+            {contratoDetails.objetoContrato}
+            {"\n"}
+            {contratoDetails.salario.valor}
+          </Text>
         </View>
-  
-        {/* Botón para regresar */}
-  
-  <View style={stylesContrato.container}>
-    <TouchableOpacity 
-      style={stylesDetalle.buttonNomina} 
-      onPress={() => handleSelectContrato(contratoDetails)}
-    >
-      <FontAwesome5 name="file-invoice-dollar" size={16} color="#FFF" style={{ marginRight: 10 }} />
-      <Text style={stylesDetalle.buttonNominaText}>Detalle Nómina</Text>
-    </TouchableOpacity>
-  </View>
-  
-  
-        
-      </ScrollView>
-    );
-  };
-  
-  
+      </View>
+
+      {/* Botón para regresar */}
+
+      <View style={stylesContrato.container}>
+        <TouchableOpacity
+          style={stylesDetalle.buttonNomina}
+          onPress={() => handleSelectContrato(contratoDetails)}
+        >
+          <FontAwesome5
+            name="file-invoice-dollar"
+            size={16}
+            color="#FFF"
+            style={{ marginRight: 10 }}
+          />
+          <Text style={stylesDetalle.buttonNominaText}>Detalle Nómina</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
+  );
+};
+
 export default InfoContratoUserPage;

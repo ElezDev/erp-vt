@@ -24,6 +24,7 @@ import color from "src/constant/color";
 import { ContratosModel } from "screens/components/contratos/ContratosTypes";
 import { NavigationProp, RouteProp, useRoute } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
+import { EventRegister } from "react-native-event-listeners";
 
 
 const estadoColors: { [key: string]: string } = {
@@ -125,7 +126,7 @@ const VacacionesUserView = ( {navigation}: {
           text1Style: { fontSize: 20 }, 
           text2Style: { fontSize: 18 }, 
         });
-  
+        EventRegister.emit("nuevaObservacion", {});
         setSelectedIds([]);
         setFechaInicial(new Date());
         setComentario("");
@@ -220,8 +221,13 @@ const VacacionesUserView = ( {navigation}: {
           placeholder="Buscar por período"
         />
       </View>
-
+      <View style={stylesVacaciones.totalContainer}>
+        <Text style={stylesVacaciones.totalText}>
+          Total de Vacaciones: {vacaciones.length}
+        </Text>
+      </View>
       <FlatList
+      showsVerticalScrollIndicator={false}
         data={vacacionesFiltradas}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderVacacion}

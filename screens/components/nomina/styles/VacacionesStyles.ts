@@ -154,6 +154,20 @@ import color from "src/constant/color";
       marginTop: 10,
       alignItems: 'center',
     },
+    totalContainer: {
+      backgroundColor: "#fff",
+      padding: 16,
+      borderRadius: 8,
+      borderColor: "#e0e0e0",
+      borderWidth: 1,
+      marginBottom: 16,
+    },
+    totalText: {
+      fontSize: 16,
+      fontWeight: "500",
+      color: "#333",
+      textAlign: "center",
+    },
   });
 
   

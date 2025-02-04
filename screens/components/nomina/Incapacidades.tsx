@@ -136,6 +136,7 @@ const IncapacidadesPage = () => {
       </View>
 
       <FlatList
+        showsVerticalScrollIndicator={false}
         data={resultados}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderIncapacidad}

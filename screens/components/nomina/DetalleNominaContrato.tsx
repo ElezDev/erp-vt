@@ -6,8 +6,8 @@ import {
   TouchableOpacity,
   Alert,
   ActivityIndicator,
+  Animated,
 } from "react-native";
-import Animated, { FadeInUp, FadeInDown } from "react-native-reanimated";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import Entypo from "@expo/vector-icons/Entypo";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
@@ -32,30 +32,41 @@ const DetalleNominaContrato = ({
 }) => {
   const route = useRoute<RouteProp<RouteParams, "DetalleNominaContrato">>();
   const contrato = route.params.contrato;
+  
 
   const [nomina, setNomina] = useState<NominaModel | null>(null);
   const [loading, setLoading] = useState(true);
+  console.log(contrato.id, "desde detalle nomina");
+  
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`${BASE_URL}nominas_by_contrato/${contrato.id}`);
-        const data = response.data as NominaModel[];
-        if (data.length > 0) {
-          setNomina(data[0]);
-        } else {
-          setNomina(null); 
+    const unsubscribe = navigation.addListener("focus", () => {
+      const fetchData = async () => {
+        setLoading(true);
+        try {
+          const response = await axios.get(`${BASE_URL}nominas_by_contrato/${contrato.id}`);
+          const data = response.data as NominaModel[];
+          console.log(response.data);
+          if (data.length > 0) {
+            setNomina(data[0]);
+            console.log("Nomina actualizada:", data[0]);
+          } else {
+            setNomina(null);
+          }
+        } catch (error) {
+          Alert.alert("Error", "No se pudieron cargar los datos de la nómina.");
+          console.error(error);
+        } finally {
+          setLoading(false);
         }
-      } catch (error) {
-        Alert.alert("Error", "No se pudieron cargar los datos de la nómina.");
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
+      };
+  
+      fetchData();
+    });
+  
+    return unsubscribe; 
+  }, [navigation, contrato.id]);
+  
 
   if (loading) {
     return (
@@ -75,29 +86,29 @@ const DetalleNominaContrato = ({
       </View>
     );
   }
-
+ 
   return (
     <ScrollView style={stylesDetalleNomina.container}>
       {/* Encabezado */}
-      <Animated.View entering={FadeInUp.duration(500)}>
+      <Animated.View style={{ opacity: new Animated.Value(0) }}>
         <View style={stylesDetalleNomina.headerContainer}></View>
       </Animated.View>
 
       {/* Datos del Contrato */}
-      <Animated.View entering={FadeInUp.delay(200).duration(600)} style={stylesDetalleNomina.card}>
+      <View style={stylesDetalleNomina.card}>
         <Text style={stylesDetalleNomina.title}>Datos del Contrato</Text>
         <View style={stylesDetalleNomina.row}>
           <Text style={stylesDetalleNomina.label}>Número de Contrato:</Text>
-          <Text style={stylesDetalleNomina.value}>{contrato.numeroContrato}</Text>
+          {/* <Text style={stylesDetalleNomina.value}>{contrato.numeroContrato}</Text> */}
         </View>
         <View style={stylesDetalleNomina.row}>
           <Text style={stylesDetalleNomina.label}>Devengado:</Text>
           <Text style={stylesDetalleNomina.value}>{nomina.devengado.toLocaleString()}</Text>
         </View>
-      </Animated.View>
+      </View>
 
       {/* Cálculos Financieros */}
-      <Animated.View entering={FadeInUp.delay(400).duration(600)} style={stylesDetalleNomina.card}>
+      <View style={stylesDetalleNomina.card}>
         <Text style={stylesDetalleNomina.title}>Cálculos Financieros</Text>
         <View style={stylesDetalleNomina.row}>
           <Text style={stylesDetalleNomina.label}>Neto Pagado:</Text>
@@ -129,10 +140,10 @@ const DetalleNominaContrato = ({
             ${nomina.valorTotalPorTrabajador.toLocaleString()}
           </Text>
         </View>
-      </Animated.View>
+      </View>
 
       {/* Acciones */}
-      <Animated.View entering={FadeInDown.delay(500).duration(600)} style={stylesDetalleNomina.actionsContainer}>
+      <View  style={stylesDetalleNomina.actionsContainer}>
         <TouchableOpacity style={stylesDetalleNomina.actionButton} onPress={() => navigation.navigate("UserVacacionesView",{ contrato })}>
           <Icon name="beach-access" size={28} color="#fff" />
           <Text style={stylesDetalleNomina.actionText}>Vacaciones</Text>
@@ -149,7 +160,7 @@ const DetalleNominaContrato = ({
           <FontAwesome5 name="comments-dollar" size={24} color="#fff" />
           <Text style={stylesDetalleNomina.actionText}>Retenciones</Text>
         </TouchableOpacity>
-      </Animated.View>
+      </View>
     </ScrollView>
   );
 };
