@@ -151,38 +151,53 @@ const VacacionesUserView = ( {navigation}: {
     ? vacaciones.filter((v) => v.periodo.toString().includes(busqueda))
     : vacaciones;
 
-  const renderVacacion = ({ item }: { item: Vacacion }) => (
-    <View
-      style={[
-        stylesVacaciones.card,
-        { backgroundColor: estadoColors[item.estado] },
-      ]}
-    >
-      <Text style={stylesVacaciones.cardTitle}>Período: {item.periodo}</Text>
-      <Text style={stylesVacaciones.label}>Estado: {item.estado}</Text>
-      <Switch
-        style={stylesVacaciones.switch}
-        value={selectedIds.includes(item.id)}
-        onValueChange={() => handleSeleccionar(item.id)}
-        thumbColor={selectedIds.includes(item.id) ? "#ff6605" : "#f4f4f4"}
-        trackColor={{
-          false: "#ccc",
-          true: "#ff6605",
-        }}
-      />
-      <TouchableOpacity
-      style={stylesVacaciones.buttonObservaciones}
-      onPress={() => {
-        navigation.navigate("ObservacionesVacaciones", {
-          idSolicitud: item.idSolicitud,
-        });
-      }}
-    >
-      <Text style={stylesVacaciones.buttonText}>Ver Observaciones</Text>
-    </TouchableOpacity>
-    </View>
-  );
-
+    const renderVacacion = ({ item }: { item: Vacacion }) => (
+      <View
+        style={[
+          stylesVacaciones.card,
+          { backgroundColor: estadoColors[item.estado] },
+        ]}
+      >
+        <Text style={stylesVacaciones.cardTitle}>Período: {item.periodo}</Text>
+        <Text style={stylesVacaciones.label}>Estado: {item.estado}</Text>
+    
+        {/* Switch para seleccionar vacaciones */}
+        <Switch
+          style={stylesVacaciones.switch}
+          value={!!item.idSolicitud || selectedIds.includes(item.id)}
+          onValueChange={() => {
+            if (!item.idSolicitud) {
+              handleSeleccionar(item.id);
+            } else {
+              Toast.show({
+                type: "error",
+                text1: "Error",
+                text2: "Este período ya tiene una solicitud asociada.",
+              });
+            }
+          }}
+          thumbColor={selectedIds.includes(item.id) ? "#ff6605" : "#f4f4f4"}
+          trackColor={{
+            false: "#ccc",
+            true: "#ff6605",
+          }}
+          disabled={!!item.idSolicitud} 
+        />
+    
+        {/* Botón para ver observaciones */}
+        <TouchableOpacity
+          style={stylesVacaciones.buttonObservaciones}
+          onPress={() => {
+            navigation.navigate("ObservacionesVacaciones", {
+              idSolicitud: item.idSolicitud,
+            });
+          }}
+        >
+          <Text style={stylesVacaciones.buttonText}>Ver Observaciones</Text>
+        </TouchableOpacity>
+      </View>
+    );
+    
   const periodosSeleccionados = vacaciones
     .filter((v) => selectedIds.includes(v.id))
     .map((v) => v.periodo)
