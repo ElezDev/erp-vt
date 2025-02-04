@@ -4,7 +4,6 @@ import {
   Text,
   ScrollView,
   Image,
-  ActivityIndicator,
   Button,
   TouchableOpacity,
 } from "react-native";
@@ -18,6 +17,7 @@ import { stylesDetalle } from "screens/components/contratos/StylesDetalle";
 import { ContratosModel } from "screens/components/contratos/ContratosTypes";
 import { stylesContrato } from "screens/components/contratos/StylesContrato";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import LoadingComponent from "screens/components/utils/LoadingComponent";
 
 type InfoContratoPageNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -73,12 +73,7 @@ const InfoContratoUserPage = ({ navigation }: InfoContratoProps) => {
   }, [contratoDetails, navigation]);
 
   if (loading) {
-    return (
-      <View style={stylesContrato.centered}>
-        <ActivityIndicator size="large" color="#ff8c00" />
-        <Text style={stylesContrato.loadingText}>Cargando contrato...</Text>
-      </View>
-    );
+    return <LoadingComponent text="Cargando..." color="#ff6347" />;
   }
 
   if (error) {

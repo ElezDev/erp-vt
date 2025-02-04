@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Text, StyleSheet, View, ActivityIndicator } from "react-native";
+import { Text, StyleSheet } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Animated from "react-native-reanimated";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -12,6 +12,7 @@ import CustomHeader from "../navigations/CustomHeader";
 import color from "src/constant/color";
 import Banners from "../nomina/TipoNomina";
 import InfoContratoUserPage from "../User/ContratosUser/InfocontratosUser";
+import LoadingComponent from "./LoadingComponent";
 
 const Tab = createBottomTabNavigator();
 
@@ -49,11 +50,7 @@ const BottomTabNavigator = () => {
   }, []);
 
   if (loading) {
-    return (
-      <View style={styles.loaderContainer}>
-        <ActivityIndicator size="large" color={color.primaryColor} />
-      </View>
-    );
+    return <LoadingComponent text="..." color="#ff6347" />;
   }
 
   const screens = [

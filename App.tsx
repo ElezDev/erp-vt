@@ -103,7 +103,10 @@ export default function App() {
             component={NewsDetailScreen}
             options={{ title: "Detalle de Noticia" }}
           />
-          <Stack.Screen name="Notification" component={notificationsScreen} />
+          <Stack.Screen name="Notification" component={notificationsScreen}
+            options={{ title: "Notificaciones" }}
+          
+          />
           <Stack.Screen
             name="DetalleContrato"
             component={DetalleContratoPage}

@@ -4,7 +4,6 @@ import {
   Text,
   ScrollView,
   Image,
-  ActivityIndicator,
   Button,
   TouchableOpacity,
 } from "react-native";
@@ -18,6 +17,7 @@ import { stylesContrato } from "./StylesContrato";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { stylesDetalle } from "./StylesDetalle";
 import { FontAwesome5 } from '@expo/vector-icons'; 
+import LoadingComponent from "../utils/LoadingComponent";
 
 
 type DetalleContratoScreenRouteProp = RouteProp<
@@ -75,12 +75,7 @@ const DetalleContratoPage = ({ route, navigation }: DetalleContratoProps) => {
   }, [contrato, contratoDetails, navigation]);
 
   if (loading) {
-    return (
-      <View style={stylesContrato.centered}>
-        <ActivityIndicator size="large" color="#ff8c00" />
-        <Text style={stylesContrato.loadingText}>Cargando contrato...</Text>
-      </View>
-    );
+    return <LoadingComponent text="Cargando contrato..." color="#ff6347" />;
   }
 
   if (error) {

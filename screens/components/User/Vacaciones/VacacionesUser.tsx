@@ -5,10 +5,8 @@ import {
   Switch,
   FlatList,
   TextInput,
-  Button,
   Modal,
   TouchableOpacity,
-  Alert,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -25,6 +23,7 @@ import { ContratosModel } from "screens/components/contratos/ContratosTypes";
 import { NavigationProp, RouteProp, useRoute } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
 import { EventRegister } from "react-native-event-listeners";
+import { fetchVacaciones } from "./Providers/VacacionesProvider";
 
 
 const estadoColors: { [key: string]: string } = {
@@ -56,33 +55,10 @@ const VacacionesUserView = ( {navigation}: {
   const [comentario, setComentario] = useState<string>("");
   const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
 
+ 
   useEffect(() => {
-    const fetchVacaciones = async (): Promise<Vacacion[]> => {
-      try {
-        const token = await AsyncStorage.getItem("access_token");
-        const response = await axios.get<VacacionesResponse>(
-          `${BASE_URL}vacaciones`,
-          {
-            params: {
-              periodo: "",
-              idSolicitud: "",
-              idContrato: contrato.id, 
-              estado: "",
-            },
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-        console.log(contrato.id);
-        return response.data.vacaciones;
-      } catch (error) {
-        console.error("Error fetching vacaciones:", error);
-        return [];
-      }
-    };
-  
-    fetchVacaciones().then((data) => setVacaciones(data));
-  }, [contrato.id]); 
-
+    fetchVacaciones(contrato.id).then((data) => setVacaciones(data));
+  }, [contrato.id]);
   const handleBuscar = (texto: string) => {
     setBusqueda(texto);
   };
@@ -133,7 +109,6 @@ const VacacionesUserView = ( {navigation}: {
         setModalVisible(false);
       }
     } catch (error) {
-      console.error("Error enviando la solicitud:", error);
       Toast.show({
         type: "error",
         text1: "Error",

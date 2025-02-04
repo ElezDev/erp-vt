@@ -4,7 +4,6 @@ import {
   Text,
   Image,
   ScrollView,
-  ActivityIndicator,
   Alert,
 } from "react-native";
 import axios from "axios";
@@ -13,6 +12,7 @@ import BASE_URL from "src/Config/config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { stylesProfile } from "./StylesProfile";
 import { Persona } from "../contratos/ContratosTypes";
+import LoadingComponent from "../utils/LoadingComponent";
 
 
 
@@ -63,11 +63,7 @@ const ProfileScreen = () => {
   };
 
   if (loading) {
-    return (
-      <View style={stylesProfile.centeredContainer}>
-        <ActivityIndicator size="large" color="#4A90E2" />
-      </View>
-    );
+    return <LoadingComponent text="Cargando perfil..." color="#ff6347" />;
   }
 
   if (!userData) {

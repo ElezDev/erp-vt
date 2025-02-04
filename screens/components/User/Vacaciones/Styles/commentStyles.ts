@@ -76,4 +76,9 @@ import { StyleSheet } from "react-native";
       fontSize: 16,
       color: '#888',
     },
+    loadingText:{
+      marginTop: 10,
+      fontSize: 16,
+      color: '#333',
+    }
   });

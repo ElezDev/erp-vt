@@ -3,7 +3,6 @@ import {
   Text,
   View,
   FlatList,
-  ActivityIndicator,
   Image,
   TextInput,
   TouchableOpacity,
@@ -18,6 +17,7 @@ import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { Checkbox } from "react-native-paper";
 import { stylesDetalle } from "./StylesDetalle";
+import LoadingComponent from "../utils/LoadingComponent";
 
 const ContratosPage = () => {
   const [contratos, setContratos] = useState<ContratosModel[]>([]);
@@ -145,12 +145,7 @@ const ContratosPage = () => {
   );
 
   if (loading) {
-    return (
-      <View style={stylesDetalle.loadingContainer}>
-        <ActivityIndicator size="large" color="#ff8c00" />
-        <Text>Cargando contratos...</Text>
-      </View>
-    );
+    return <LoadingComponent text="Cargando contratos..." color="#ff6347" />;
   }
 
   return (

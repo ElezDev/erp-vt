@@ -1,17 +1,12 @@
 import React, { useState, useEffect } from "react";
-import {
-  StyleSheet,
-  FlatList,
-  View,
-  TouchableOpacity,
-  Image,
-  Text,
-  ActivityIndicator,
-} from "react-native";
+import { FlatList, View, TouchableOpacity, Image, Text } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { NotificationModel } from "./typesNotificatios";
 import BASE_URL from "src/Config/config";
+import LoadingComponent from "../utils/LoadingComponent";
+import { stylesNotificacion } from "./Styles/NotificationsStyles";
+import EmptyStateComponent from "../utils/EmptyStateComponent";
 
 const NotificationsScreen = () => {
   const [notifications, setNotifications] = useState<NotificationModel[]>([]);
@@ -46,43 +41,58 @@ const NotificationsScreen = () => {
 
   if (loading) {
     return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#1E90FF" />
-      </View>
+      <LoadingComponent text="Cargando notificaciones..." color="#ff6347" />
+    );
+  }
+
+  if (notifications.length === 0) {
+    return (
+      <EmptyStateComponent
+        text="No hay notificaciones disponibles." 
+        style={{
+          container: { backgroundColor: '#fff' },
+          text: { color: '#888' },
+        }} 
+      />
     );
   }
 
   return (
     <FlatList
-      style={styles.root}
+      style={stylesNotificacion.root}
       data={notifications}
-      ItemSeparatorComponent={() => <View style={styles.separator} />}
+      ItemSeparatorComponent={() => (
+        <View style={stylesNotificacion.separator} />
+      )}
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => {
         const attachment = item.route ? (
-          <Image style={styles.attachment} source={{ uri: item.route }} />
+          <Image
+            style={stylesNotificacion.attachment}
+            source={{ uri: item.route }}
+          />
         ) : null;
 
         return (
-          <TouchableOpacity style={styles.container}>
+          <TouchableOpacity style={stylesNotificacion.container}>
             <Image
               source={{
                 uri:
                   item.personaRemitente.rutaFotoUrl ||
                   "https://bootdey.com/img/Content/avatar/avatar7.png",
               }}
-              style={styles.avatar}
+              style={stylesNotificacion.avatar}
             />
-            <View style={styles.content}>
-              <View style={styles.mainContent}>
-                <View style={styles.text}>
-                  <Text style={styles.name}>
+            <View style={stylesNotificacion.content}>
+              <View style={stylesNotificacion.mainContent}>
+                <View style={stylesNotificacion.text}>
+                  <Text style={stylesNotificacion.name}>
                     {`${item.personaRemitente.nombre1} ${item.personaRemitente.apellido1}` ||
                       "N/A"}
                   </Text>
                   <Text>{item.mensaje || "Mensaje no disponible"}</Text>
                 </View>
-                <Text style={styles.timeAgo}>2 hours ago</Text>
+                <Text style={stylesNotificacion.timeAgo}>2 hours ago</Text>
               </View>
               {attachment}
             </View>
@@ -94,57 +104,3 @@ const NotificationsScreen = () => {
 };
 
 export default NotificationsScreen;
-
-const styles = StyleSheet.create({
-  root: {
-    backgroundColor: "#FFFFFF",
-  },
-  container: {
-    padding: 16,
-    flexDirection: "row",
-    borderBottomWidth: 1,
-    borderColor: "#FFFFFF",
-    alignItems: "flex-start",
-  },
-  avatar: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-  },
-  text: {
-    marginBottom: 5,
-    flexDirection: "row",
-    flexWrap: "wrap",
-  },
-  content: {
-    flex: 1,
-    marginLeft: 16,
-    marginRight: 0,
-  },
-  mainContent: {
-    marginRight: 60,
-  },
-  attachment: {
-    position: "absolute",
-    right: 0,
-    height: 50,
-    width: 50,
-  },
-  separator: {
-    height: 1,
-    backgroundColor: "#CCCCCC",
-  },
-  timeAgo: {
-    fontSize: 12,
-    color: "#696969",
-  },
-  name: {
-    fontSize: 16,
-    color: "#1E90FF",
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});

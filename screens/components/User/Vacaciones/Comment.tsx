@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { 
-  View, Text, FlatList, Image, ActivityIndicator, RefreshControl 
+  View, Text, FlatList, Image, RefreshControl 
 } from 'react-native';
 import axios from 'axios';
 import BASE_URL from 'src/Config/config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { stylesCommnet } from './Styles/commentStyles';
+import LoadingComponent from 'screens/components/utils/LoadingComponent';
 
 const ObservacionesChat = () => {
   type RouteParams = {
@@ -65,11 +66,7 @@ const ObservacionesChat = () => {
   }, [fetchObservaciones]);
 
   if (loading) {
-    return (
-      <View style={stylesCommnet.loadingContainer}>
-        <ActivityIndicator size="large" color="#6200ea" />
-      </View>
-    );
+    return <LoadingComponent text="Cargando observaciones..." color="#ff6347" />;
   }
 
   if (error) {

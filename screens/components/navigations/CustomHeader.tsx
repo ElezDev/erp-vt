@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigation } from '@react-navigation/native';
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { Menu, Dialog, Portal, Button, ActivityIndicator } from 'react-native-paper';
+import { Menu, Dialog, Portal, Button } from 'react-native-paper';
 import color from "src/constant/color";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 

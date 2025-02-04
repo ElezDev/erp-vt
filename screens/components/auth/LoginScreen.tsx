@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert, Image, ActivityIndicator } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -9,6 +9,7 @@ import { RootStackParamList } from 'App';
 import BASE_URL from 'src/Config/config';
 import color from "src/constant/color";
 import { stylesLogin } from './Styles/LoginStyles';
+import LoadingComponent from '../utils/LoadingComponent';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
@@ -98,7 +99,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
       </View>
 
       {loading ? (
-        <ActivityIndicator size="large" color={color.accentColor} />
+        <LoadingComponent text="Iniciando sesión..." color={color.accentColor} />
       ) : (
         <TouchableOpacity style={stylesLogin.button} onPress={handleLogin} activeOpacity={0.8}>
           <Text style={stylesLogin.buttonText}>Iniciar Sesión</Text>

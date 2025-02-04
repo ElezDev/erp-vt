@@ -5,7 +5,6 @@ import {
   ScrollView,
   TouchableOpacity,
   Alert,
-  ActivityIndicator,
   Animated,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -18,6 +17,7 @@ import color from "src/constant/color";
 import { stylesDetalleNomina } from "./styles/DetalleNominaStyles";
 import { NominaModel } from "./types/NominaModel";
 import { ContratosModel } from "../contratos/ContratosTypes";
+import LoadingComponent from "../utils/LoadingComponent";
 
 type RouteParams = {
   DetalleNominaContrato: {
@@ -69,12 +69,7 @@ const DetalleNominaContrato = ({
   
 
   if (loading) {
-    return (
-      <View style={stylesDetalleNomina.loadingContainer}>
-        <ActivityIndicator size="large" color={color.accentColor} />
-        <Text style={stylesDetalleNomina.loadingText}>Cargando datos...</Text>
-      </View>
-    );
+    return <LoadingComponent text="Cargando..." color="#ff6347" />;
   }
 
   if (!nomina) {

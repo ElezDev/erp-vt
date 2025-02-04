@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet, ActivityIndicator, Text } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from 'App';
 import color from 'src/constant/color';
+import LoadingComponent from './LoadingComponent';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Indicator'>;
 
@@ -22,13 +23,11 @@ const IndicatorScreen: React.FC<Props> = ({ navigation }) => {
 
     checkToken();
   }, []);
+ 
+  return <LoadingComponent text="Espere un momento..." color="#ff6347" />;
 
-  return (
-    <View style={styles.container}>
-      <ActivityIndicator size="large" color={color.primaryColor} />
-      <Text style={styles.text}>Validando información...</Text>
-    </View>
-  );
+
+
 };
 
 const styles = StyleSheet.create({
