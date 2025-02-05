@@ -11,7 +11,7 @@ import HomeScreen from "../home/HomeScreen";
 import CustomHeader from "../navigations/CustomHeader";
 import color from "src/constant/color";
 import Banners from "../nomina/TipoNomina";
-import InfoContratoUserPage from "../User/ContratosUser/InfocontratosUser";
+import InfoContratoUserPage from "../User/ContratosUser/InfoContratosUser";
 import LoadingComponent from "./LoadingComponent";
 
 const Tab = createBottomTabNavigator();

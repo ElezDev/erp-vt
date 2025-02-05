@@ -60,9 +60,11 @@ export const stylesContrato = StyleSheet.create({
       marginTop: 12,
     },
     info: {
+
       fontSize: 16,
       color: "#555",
-      marginBottom: 8,
+      paddingHorizontal: 10,
+    
     },
     activo: {
       color: "#28a745",
@@ -121,45 +123,45 @@ export const stylesContrato = StyleSheet.create({
       justifyContent: "space-between",
     },
     infoItem: {
-      flexDirection: 'row',               // Alinea los elementos en fila (icono + texto)
-      alignItems: 'center',               // Centra verticalmente el contenido
-      marginBottom: 10,                   // Espacio entre cada ítem de información
-      paddingHorizontal: 15,              // Espaciado en los lados (de izquierda a derecha)
-      paddingVertical: 5,                 // Espaciado vertical
-      backgroundColor: 'rgba(255, 140, 0, 0.1)', // Fondo suave para que se destaque
-      borderRadius: 8,                    // Bordes redondeados para un look más moderno
-      shadowColor: '#000',                // Sombra para dar un efecto de profundidad
-      shadowOffset: { width: 0, height: 2 },  // Sombra en la parte inferior
-      shadowOpacity: 0.1,                 // Opacidad de la sombra
-      shadowRadius: 4,                   // Radio de la sombra
+      flexDirection: 'row',           
+      alignItems: 'center',               
+      marginBottom: 10,                   
+      paddingHorizontal: 15,             
+      paddingVertical: 5,                
+      backgroundColor: 'rgba(255, 140, 0, 0.1)', 
+      borderRadius: 8,                    
+      shadowColor: '#000',               
+      shadowOffset: { width: 0, height: 2 },  
+      shadowOpacity: 0.1,                
+      shadowRadius: 4,                   
     },
     errorContainer: {
-      backgroundColor: '#ff4d4d',          // Fondo rojo suave para denotar error
-      padding: 15,                         // Espaciado alrededor del mensaje
-      borderRadius: 8,                     // Bordes redondeados
-      marginVertical: 10,                  // Espacio vertical entre otros elementos
-      marginHorizontal: 20,                // Espaciado horizontal
-      borderWidth: 1,                      // Borde para definir bien el contenedor
-      borderColor: '#ff0000',              // Borde rojo oscuro para resaltar el error
-      flexDirection: 'row',                // Para alinear icono y mensaje (si los tienes)
-      alignItems: 'center',                // Alineación vertical central
-      shadowColor: '#ff0000',              // Sombra roja para dar profundidad
-      shadowOffset: { width: 0, height: 3 }, // Sombra hacia abajo
-      shadowOpacity: 0.2,                  // Sombra suave
-      shadowRadius: 5,                     // Radio de la sombra
+      backgroundColor: '#ff4d4d',        
+      padding: 15,                         
+      borderRadius: 8,                     
+      marginVertical: 10,                  
+      marginHorizontal: 20,                
+      borderWidth: 1,                      
+      borderColor: '#ff0000',             
+      flexDirection: 'row',                
+      alignItems: 'center',                
+      shadowColor: '#ff0000',             
+      shadowOffset: { width: 0, height: 3 },
+      shadowOpacity: 0.2,                  
+      shadowRadius: 5,                     
     },
     errorMessage: {
-      fontSize: 16,                        // Tamaño de la fuente para que sea legible
-      color: '#fff',                       // Texto blanco para buen contraste
-      flex: 1,                             // Hace que el texto ocupe todo el espacio disponible
+      fontSize: 16,                        
+      color: '#fff',                       
+      flex: 1,                             
     },
     errorIcon: {
-      width: 20,                           // Tamaño del ícono de error (si usas uno)
+      width: 20,                           
       height: 20,
-      marginRight: 10,                     // Espacio entre el ícono y el texto
+      marginRight: 10,                        
     },
     bold:{
-      fontWeight: 'bold',                      // Estilo en negrita para resaltar el texto  
+      fontWeight: 'bold',    
     }    
 
   });

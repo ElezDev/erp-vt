@@ -22,7 +22,7 @@ import theme from "theme/theme";
 import StoryDetail from "screens/components/Stories/StoryDetail";
 import Nomina from "screens/components/nomina/Nomina";
 import NominaGeneral from "screens/components/nomina/NominaGeneral";
-import InfoContratoUserPage from "screens/components/User/ContratosUser/InfocontratosUser";
+import InfoContratoUserPage from "screens/components/User/ContratosUser/InfoContratosUser";
 import VacacionesUserView from "screens/components/User/Vacaciones/VacacionesUser";
 import EstadoObservaciones from "screens/components/User/Vacaciones/Comment";
 import Toast from "react-native-toast-message";

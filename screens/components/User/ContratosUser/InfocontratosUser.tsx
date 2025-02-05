@@ -18,6 +18,7 @@ import { ContratosModel } from "screens/components/contratos/ContratosTypes";
 import { stylesContrato } from "screens/components/contratos/StylesContrato";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LoadingComponent from "screens/components/utils/LoadingComponent";
+import Toast from "react-native-toast-message";
 
 type InfoContratoPageNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -52,8 +53,14 @@ const InfoContratoUserPage = ({ navigation }: InfoContratoProps) => {
 
       setContratoDetails(response.data as ContratosModel);
     } catch (error) {
-      console.error("Error al cargar el contrato:", error);
-      setError("Hubo un problema al cargar el contrato.");
+      Toast.show({
+        text1: "Error al cargar los contratos.",
+        type: "error",
+        topOffset: 100,
+        bottomOffset: 50,
+        text1Style: { fontSize: 18 },
+      })
+        setError("Hubo un problema al cargar el contrato.");
     } finally {
       setLoading(false);
     }
@@ -101,11 +108,11 @@ const InfoContratoUserPage = ({ navigation }: InfoContratoProps) => {
             <Image
               source={
                 imageError || !contratoDetails.persona.rutaFotoUrl
-                  ? require("../../../../assets/images/avatar.png") 
+                  ? require("../../../../assets/images/avatar.png")
                   : { uri: contratoDetails.persona.rutaFotoUrl }
               }
               style={stylesDetalle.avatar}
-              onError={() => setImageError(true)} 
+              onError={() => setImageError(true)}
             />
             <View style={stylesContrato.cardHeaderText}>
               <Text style={[stylesContrato.title, stylesContrato.bold]}>
@@ -167,15 +174,17 @@ const InfoContratoUserPage = ({ navigation }: InfoContratoProps) => {
         <View style={stylesContrato.cardItem}>
           <Text style={stylesContrato.cardTitle}>Acerca del Contrato</Text>
           <Text style={stylesContrato.cardContent}>
-            {contratoDetails.fechaContratacion}
+            Fecha Ini: {contratoDetails.fechaContratacion}
             {"\n"}
-            {contratoDetails.fechaFinalContrato}
+             Fecha Fin: {contratoDetails.fechaFinalContrato}
             {"\n"}
-            {contratoDetails.salario.rol.name}
             {"\n"}
+            {/* {contratoDetails.salario.rol.name}
+            {"\n"} */}
             {contratoDetails.objetoContrato}
             {"\n"}
-            {contratoDetails.salario.valor}
+            {"\n"}
+            {contratoDetails.salario.valor.toLocaleString()}
           </Text>
         </View>
       </View>
