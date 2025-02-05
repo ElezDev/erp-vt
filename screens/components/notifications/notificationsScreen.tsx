@@ -27,7 +27,6 @@ const NotificationsScreen = () => {
           }
         );
 
-        console.log(response.data);
         setNotifications(response.data);
       } catch (error) {
         console.error("Error fetching notifications:", error);

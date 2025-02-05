@@ -1,52 +1,76 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, FlatList, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import axios from "axios";
 import { incapacidadesStyles } from "./styles/IncapacidadesStyles";
+import BASE_URL from "src/Config/config";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { IncapacidadModel } from "./types/IncapacidadModel";
+import { ContratosModel } from "../contratos/ContratosTypes";
+import { NavigationProp, RouteProp, useRoute } from "@react-navigation/native";
 
-const IncapacidadesPage = () => {
-  const [incapacidades, setincapacidades] = useState([
-    {
-      id: 1,
-      fechaInicial: "2021-02-01",
-      fechaFinal: "2021-01-01",
-      tipo: "Paternidad",
-      valor: "100000",
-      observacion: "NA",
-      estado: "Finalizado",
-    },
-    {
-      id: 2,
-      fechaInicial: "2025-02-01",
-      fechaFinal: "2021-01-01",
-      tipo: "Enfermedad",
-      valor: "200000",
-      observacion: "NA",
-      estado: "Por autorizar",
-    },
-    {
-      id: 3,
-      fechaInicial: "2025-02-01",
-      fechaFinal: "2021-01-01",
-      tipo: "Enfermedad",
-      valor: "200000",
-      observacion: "NA",
-      estado: "Por autorizar",
-    },
-    {
-      id: 4,
-      fechaInicial: "2025-02-01",
-      fechaFinal: "2021-01-01",
-      tipo: "Enfermedad",
-      valor: "200000",
-      observacion: "NA",
-      estado: "Por autorizar",
-    },
-  ]);
+type RouteParams = {
+  IncapacidadesPage: {
+    contrato: ContratosModel;
+  };
+};
 
+const IncapacidadesPage = ({navigation}:{
+  navigation: NavigationProp<any>;
+}) => {
+   const route = useRoute<RouteProp<RouteParams, "IncapacidadesPage">>();
+  const contrato = route.params.contrato;
+  const [incapacidades, setIncapacidades] = useState<IncapacidadModel[]>([]);
   const [busqueda, setBusqueda] = useState("");
-  const [resultados, setResultados] = useState(incapacidades);
+  const [resultados, setResultados] = useState<IncapacidadModel[]>([]);
 
-  const handleBuscar = (texto: string) => {
+  const handleNavigatetosupports = ()=>{
+    navigation.navigate("ObservacionesIncapacidad", { contrato });
+  }
+  
+  useEffect(() => {
+    const fetchIncapacidades = async () => {
+      try {
+        const token = await AsyncStorage.getItem("access_token");
+
+        const response = await axios.get(`${BASE_URL}get_my_solicitudes_worker/${contrato.id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        const datos: IncapacidadModel[] = (response.data as any[]).map((item: any) => ({
+          id: item.id,
+          fechaInicial: item.fechaInicial,
+          fechaFinal: item.fechaFinal,
+          tipo: item.tipo ?? "N/A",
+          valor: item.valor.toLocaleString(),
+          observacion: item.observacion ?? "N/A",
+          estado: item.estado,
+          fechaSolicitud: item.fechaSolicitud,
+          urlSoporte: item.urlSoporte,
+          idContrato: item.idContrato,
+          idTipoIncapacidad: item.idTipoIncapacidad,
+          idEmpleado: item.idEmpleado,
+          idEmpresa: item.idEmpresa,
+          idSede: item.idSede,
+          numDias: item.numDias,
+          created_at: item.created_at,
+          updated_at: item.updated_at,
+          rutaSoporte: item.rutaSoporte,
+        }));
+
+        setIncapacidades(datos);
+        setResultados(datos);
+      } catch (error) {
+        console.error("Error al cargar las incapacidades:", error);
+      }
+    };
+
+    fetchIncapacidades();
+  }, []);
+
+
+  
+  const handleBuscar = (texto:any) => {
     setBusqueda(texto);
     if (texto === "") {
       setResultados(incapacidades);
@@ -61,7 +85,7 @@ const IncapacidadesPage = () => {
   const calcularTotales = () => {
     const totalCantidad = resultados.length;
     const totalValor = resultados.reduce(
-      (suma, incapacidad) => suma + parseFloat(incapacidad.valor || "0"),
+      (suma, incapacidad) => suma + parseFloat(incapacidad.valor?.toString() || "0"),
       0
     );
     return { totalCantidad, totalValor };
@@ -69,7 +93,7 @@ const IncapacidadesPage = () => {
 
   const { totalCantidad, totalValor } = calcularTotales();
 
-  const renderIncapacidad = ({ item }: { item: typeof incapacidades[0] }) => (
+  const renderIncapacidad = ({ item }: { item: IncapacidadModel }) => (
     <View style={incapacidadesStyles.card}>
       <View style={incapacidadesStyles.inputRow}>
         <Text style={incapacidadesStyles.label}>Fecha Ini:</Text>
@@ -83,12 +107,12 @@ const IncapacidadesPage = () => {
 
       <View style={incapacidadesStyles.inputRow}>
         <Text style={incapacidadesStyles.label}>Tipo:</Text>
-        <Text style={incapacidadesStyles.input}>{item.tipo}</Text>
+        <Text style={incapacidadesStyles.input}>{item.idTipoIncapacidad}</Text>
       </View>
 
       <View style={incapacidadesStyles.inputRow}>
         <Text style={incapacidadesStyles.label}>Valor:</Text>
-        <Text style={incapacidadesStyles.input}>{item.valor}</Text>
+        <Text style={incapacidadesStyles.input}>{item.valor.toLocaleString()}</Text>
       </View>
 
       <View style={incapacidadesStyles.inputRow}>
@@ -99,10 +123,11 @@ const IncapacidadesPage = () => {
       {/* Botón Soportes */}
       <View style={incapacidadesStyles.switchRow}>
         <TouchableOpacity
-          style={incapacidadesStyles.buttonAdd}
-          onPress={() => alert(`Soportes para incapacidad ${item.id}`)}>
-          <Text style={incapacidadesStyles.buttonText}>Soportes</Text>
-        </TouchableOpacity>
+        style={incapacidadesStyles.buttonAdd}
+        onPress={() => navigation.navigate(`ObservacionesIncapacidad`, { idSolicitud: item.id })}>
+        <Text style={incapacidadesStyles.buttonText}>Soportes</Text>
+      </TouchableOpacity>
+
       </View>
     </View>
   );

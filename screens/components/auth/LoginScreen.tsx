@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -10,6 +10,7 @@ import BASE_URL from 'src/Config/config';
 import color from "src/constant/color";
 import { stylesLogin } from './Styles/LoginStyles';
 import LoadingComponent from '../utils/LoadingComponent';
+import Toast from 'react-native-toast-message';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
@@ -33,7 +34,15 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
 
   const handleLogin = async () => {
     if (!email || !password) {
-      Alert.alert('Error', 'Por favor, complete todos los campos');
+      Toast.show({
+        text1: 'Por favor, complete los campos',
+        type: 'info',
+        position: 'bottom',
+        topOffset: 50,
+        visibilityTime: 3000,
+        text1Style: { fontSize: 18 },
+        text2Style: { fontSize: 10 },
+      })
       return;
     }
   
@@ -57,9 +66,18 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
   
       navigation.replace('Main');
     } catch (error) {
-      Alert.alert('Error', 'Credenciales incorrectas o problema en el servidor');
-      console.error('Error en el inicio de sesión:', error);
+      Toast.show({
+        text1: 'Error al iniciar sesión',
+        text2: 'Credenciales incorrectas problema en el servidor',
+        type: 'error',
+        position: 'top',
+        topOffset: 50,
+        visibilityTime: 3000,
+        text1Style: { fontSize: 18 },
+        text2Style: { fontSize: 10 },
+      })
     } finally {
+      
       setLoading(false);
     }
   };

@@ -26,7 +26,6 @@ const ProfileScreen = () => {
       try {
         const token = await AsyncStorage.getItem("access_token");
         const roles = await AsyncStorage.getItem("roles");
-        console.log("Roles:", roles);
         
         const response = await axios.get(
           `${BASE_URL}user`,
@@ -36,7 +35,6 @@ const ProfileScreen = () => {
         );
 
         setUserData((response.data as { persona: Persona }).persona);
-        console.log("User data:", response.data);
         
       } catch (error) {
         Alert.alert("Error", "No se pudo cargar la información del usuario.");

@@ -38,7 +38,6 @@ const InfoContratoUserPage = ({ navigation }: InfoContratoProps) => {
   const handleSelectContrato = (contrato: ContratosModel) => {
     navigation.navigate("DetalleNominaContrato", { contrato });
   };
-  console.log(contratoDetails?.id, "desde informazion");
 
   const fetchContrato = async () => {
     try {

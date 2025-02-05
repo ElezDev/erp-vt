@@ -36,8 +36,6 @@ const DetalleNominaContrato = ({
 
   const [nomina, setNomina] = useState<NominaModel | null>(null);
   const [loading, setLoading] = useState(true);
-  console.log(contrato.id, "desde detalle nomina");
-  
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
@@ -46,10 +44,9 @@ const DetalleNominaContrato = ({
         try {
           const response = await axios.get(`${BASE_URL}nominas_by_contrato/${contrato.id}`);
           const data = response.data as NominaModel[];
-          console.log(response.data);
+        
           if (data.length > 0) {
             setNomina(data[0]);
-            console.log("Nomina actualizada:", data[0]);
           } else {
             setNomina(null);
           }
@@ -147,7 +144,7 @@ const DetalleNominaContrato = ({
           <Entypo name="info" size={24} color="#fff" />
           <Text style={stylesDetalleNomina.actionText}>Info</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={stylesDetalleNomina.actionButton} onPress={() => navigation.navigate("Incapacidades")}>
+        <TouchableOpacity style={stylesDetalleNomina.actionButton} onPress={() => navigation.navigate("Incapacidades",{ contrato })}>
           <FontAwesome5 name="briefcase-medical" size={24} color="#fff" />
           <Text style={stylesDetalleNomina.actionText}>Incapacidades</Text>
         </TouchableOpacity>

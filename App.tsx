@@ -26,6 +26,7 @@ import InfoContratoUserPage from "screens/components/User/ContratosUser/Infocont
 import VacacionesUserView from "screens/components/User/Vacaciones/VacacionesUser";
 import EstadoObservaciones from "screens/components/User/Vacaciones/Comment";
 import Toast from "react-native-toast-message";
+import ObservacionesIncapacidadPage from "screens/components/nomina/SoportesIncapacidad/ObservacionesIncapacidadPage";
 
 export type RootStackParamList = {
   Indicator: undefined;
@@ -41,12 +42,15 @@ export type RootStackParamList = {
   Contratos: undefined;
   Vacaciones: undefined;
   UserVacacionesView: { contrato: ContratosModel };
-  Incapacidades: undefined;
+  Incapacidades: { contrato: ContratosModel };
   Retenciones: undefined;
   StoryDetail: { stories: any[]; initialIndex: number };
   NominaGeneral: undefined;
   InfoContratoPage: undefined;
   ObservacionesVacaciones: { idSolicitud: number };
+  ObservacionesIncapacidad: { idSolicitud: number };
+
+
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -57,7 +61,6 @@ export default function App() {
   useEffect(() => {
     const listener = EventRegister.addEventListener("ChangeTheme", (data) => {
       setDarkMode(data);
-      console.log("DarkMode", data);
     });
     return () => {
       // EventRegister.removeEventListener(listener);
@@ -160,6 +163,11 @@ export default function App() {
           <Stack.Screen
             name="ObservacionesVacaciones"
             component={EstadoObservaciones}
+            options={{ headerShown: true, title: "Observaciones" }}
+          />
+          <Stack.Screen
+            name="ObservacionesIncapacidad"
+            component={ObservacionesIncapacidadPage}
             options={{ headerShown: true, title: "Observaciones" }}
           />
         </Stack.Navigator>
