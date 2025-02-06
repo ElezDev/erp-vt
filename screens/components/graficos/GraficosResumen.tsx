@@ -3,7 +3,7 @@ import React from "react";
 import { LineChart, ProgressChart } from "react-native-chart-kit";
 import { Dimensions } from "react-native";
 import color from "src/constant/color";
-import * as Animatable from "react-native-animatable"; // Importa la librería
+import * as Animatable from "react-native-animatable"; 
 
 const { width } = Dimensions.get("window");
 

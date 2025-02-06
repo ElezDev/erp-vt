@@ -2,12 +2,12 @@ import React from "react";
 import { StyleSheet, ScrollView, Animated } from "react-native";
 
 import { NavigationProp } from '@react-navigation/native';
-import Category from "../categories/Category";
-import Header from "../navigations/Header";
-import HeadLine from "../navigations/HeadLine";
+import Category from "../Categories/Category";
+import Header from "../Navigations/Header";
+import HeadLine from "../Navigations/HeadLine";
 import Search from "../utils/Search";
 import BannerERP from "./BannerERP";
-import GraficosResumen from "../graficos/GraficosResumen";
+import GraficosResumen from "../Graficos/GraficosResumen";
 import Stories from "../Stories/StoriesScreen";
 
 const HomeScreen = ({ navigation }: { navigation: NavigationProp<any> }) => {

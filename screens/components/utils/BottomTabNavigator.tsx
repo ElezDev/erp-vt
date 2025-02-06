@@ -6,9 +6,9 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import Animated from "react-native-reanimated";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import ProfileScreen from "../profile/ProfileScreen";
-import HomeScreen from "../home/HomeScreen";
-import CustomHeader from "../navigations/CustomHeader";
+import ProfileScreen from "../Profile/ProfileScreen";
+import HomeScreen from "../Home/HomeScreen";
+import CustomHeader from "../Navigations/CustomHeader";
 import color from "src/constant/color";
 import Banners from "../nomina/TipoNomina";
 import InfoContratoUserPage from "../User/ContratosUser/InfoContratosUser";

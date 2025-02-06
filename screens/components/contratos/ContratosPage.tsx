@@ -12,12 +12,12 @@ import {
 import axios from "axios";
 import BASE_URL from "src/Config/config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { ContratosModel } from "./ContratosTypes";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { Checkbox } from "react-native-paper";
-import { stylesDetalle } from "./StylesDetalle";
 import LoadingComponent from "../utils/LoadingComponent";
+import { ContratosModel } from "./ContratosTypes";
+import { stylesDetalle } from "./StylesDetalle";
 
 const ContratosPage = () => {
   const [contratos, setContratos] = useState<ContratosModel[]>([]);
@@ -32,11 +32,10 @@ const ContratosPage = () => {
     ACTIVO: false,
     INACTIVO: false,
   });
-  const [searchAnim] = useState(new Animated.Value(0)); // Estado para la animación de búsqueda
+  const [searchAnim] = useState(new Animated.Value(0));
 
   const navigation = useNavigation();
 
-  // Función para animar la entrada de la barra de búsqueda
   useEffect(() => {
     Animated.timing(searchAnim, {
       toValue: 1,

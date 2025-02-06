@@ -8,6 +8,7 @@ export const fetchVacaciones = async (contratoId: number): Promise<Vacacion[]> =
   try {
     const token = await AsyncStorage.getItem("access_token");
     const response = await axios.get<VacacionesResponse>(`${BASE_URL}vacaciones`, {
+      
       params: {
         periodo: "",
         idSolicitud: "",
@@ -17,6 +18,7 @@ export const fetchVacaciones = async (contratoId: number): Promise<Vacacion[]> =
       headers: { Authorization: `Bearer ${token}` },
     });
     return response.data.vacaciones;
+    
   } catch (error) {
      Toast.show({
             type: "error",
@@ -29,6 +31,7 @@ export const fetchVacaciones = async (contratoId: number): Promise<Vacacion[]> =
           });
     return [];
   }
+
 };
 
 export const enviarSolicitudVacaciones = async (data: any): Promise<boolean> => {

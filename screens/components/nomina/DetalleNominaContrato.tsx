@@ -16,7 +16,7 @@ import BASE_URL from "src/Config/config";
 import color from "src/constant/color";
 import { stylesDetalleNomina } from "./styles/DetalleNominaStyles";
 import { NominaModel } from "./types/NominaModel";
-import { ContratosModel } from "../contratos/ContratosTypes";
+import { ContratosModel } from "../Contratos/ContratosTypes";
 import LoadingComponent from "../utils/LoadingComponent";
 
 type RouteParams = {

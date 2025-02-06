@@ -11,7 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 import BASE_URL from "src/Config/config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { stylesProfile } from "./StylesProfile";
-import { Persona } from "../contratos/ContratosTypes";
+import { Persona } from "../Contratos/ContratosTypes";
 import LoadingComponent from "../utils/LoadingComponent";
 
 

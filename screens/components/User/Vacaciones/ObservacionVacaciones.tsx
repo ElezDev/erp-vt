@@ -36,12 +36,12 @@ const ObservacionesChat = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [refreshing, setRefreshing] = useState(false);
-
+  
   const fetchObservaciones = useCallback(async () => {
     try {
       const token = await AsyncStorage.getItem("access_token");
       const response = await axios.get(
-        `${BASE_URL}observaciones_solicitud_vacaciones?idSolicitud=${idSolicitud}`,
+        `${BASE_URL}observaciones_solicitud_vacac?idSolicitud=${idSolicitud}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setObservaciones(response.data);

@@ -2,29 +2,25 @@ import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Provider as PaperProvider } from "react-native-paper";
-import CategoryDetailScreen from "./screens/components/categories/CategoryDetailScreen";
-import NewsDetailScreen from "./screens/components/news/NewsDetailScreen";
+import CategoryDetailScreen from "./screens/components/Categories/CategoryDetailScreen";
 import BottomTabNavigator from "screens/components/utils/BottomTabNavigator";
 import LoginScreen from "screens/components/auth/LoginScreen";
 import notificationsScreen from "screens/components/notifications/notificationsScreen";
 import { usePushNotifications } from "usePushNotifications";
 import IndicatorScreen from "screens/components/utils/IdicatorScreen";
-import DetalleContratoPage from "screens/components/contratos/DetalleContratoPage";
-import { ContratosModel } from "screens/components/contratos/ContratosTypes";
+import DetalleContratoPage from "screens/components/Contratos/DetalleContratoPage";
+import { ContratosModel } from "screens/components/Contratos/ContratosTypes";
 import DetalleNominaContrato from "screens/components/nomina/DetalleNominaContrato";
-import ContratosPage from "screens/components/contratos/ContratosPage";
+import ContratosPage from "screens/components/Contratos/ContratosPage";
 import VacacionesView from "screens/components/nomina/NominaVacaciones";
 import IncapacidadesView from "screens/components/nomina/Incapacidades";
 import RetencionesPage from "screens/components/nomina/NominaRetenciones";
 import { EventRegister } from "react-native-event-listeners";
-import themeContext from "theme/themeContext";
-import theme from "theme/theme";
 import StoryDetail from "screens/components/Stories/StoryDetail";
-import Nomina from "screens/components/nomina/Nomina";
 import NominaGeneral from "screens/components/nomina/NominaGeneral";
 import InfoContratoUserPage from "screens/components/User/ContratosUser/InfoContratosUser";
 import VacacionesUserView from "screens/components/User/Vacaciones/VacacionesUser";
-import EstadoObservaciones from "screens/components/User/Vacaciones/Comment";
+import EstadoObservaciones from "screens/components/User/Vacaciones/ObservacionVacaciones";
 import Toast from "react-native-toast-message";
 import ObservacionesIncapacidadPage from "screens/components/nomina/SoportesIncapacidad/ObservacionesIncapacidadPage";
 
@@ -34,9 +30,6 @@ export type RootStackParamList = {
   Main: undefined;
   Notification: undefined;
   CategoryDetail: { categoryName: string };
-  NewsDetail: {
-    newsItem: { id: number; title: string; description: string; image: string };
-  };
   DetalleContrato: { contrato: ContratosModel };
   DetalleNominaContrato: { contrato: ContratosModel };
   Contratos: undefined;
@@ -101,11 +94,7 @@ export default function App() {
             component={CategoryDetailScreen}
             options={{ title: "Detalle de Categoría" }}
           />
-          <Stack.Screen
-            name="NewsDetail"
-            component={NewsDetailScreen}
-            options={{ title: "Detalle de Noticia" }}
-          />
+         
           <Stack.Screen name="Notification" component={notificationsScreen}
             options={{ title: "Notificaciones" }}
           

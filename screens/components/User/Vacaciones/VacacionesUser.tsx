@@ -19,11 +19,12 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import BASE_URL from "src/Config/config";
 import color from "src/constant/color";
-import { ContratosModel } from "screens/components/contratos/ContratosTypes";
+import { ContratosModel } from "screens/components/Contratos/ContratosTypes";
 import { NavigationProp, RouteProp, useRoute } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
 import { EventRegister } from "react-native-event-listeners";
 import { fetchVacaciones } from "./Providers/VacacionesProvider";
+import { Platform } from "react-native";
 
 
 const estadoColors: { [key: string]: string } = {
@@ -248,7 +249,7 @@ const VacacionesUserView = ( {navigation}: {
               <DateTimePicker
                 value={fechaInicial}
                 mode="date"
-                display="default"
+                display={Platform.OS === "ios" ? "spinner" : "calendar"}
                 onChange={(event, selectedDate) => {
                   setShowDatePicker(false);
                   if (selectedDate) {

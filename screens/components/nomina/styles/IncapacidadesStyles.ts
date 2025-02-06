@@ -76,4 +76,90 @@ export const incapacidadesStyles = StyleSheet.create({
     textAlign: "center",
   },
   switchRow: {},
+  floatingButton: {
+  position: "absolute",
+  bottom: 20,
+  right: 20,
+  backgroundColor: color.accentColor,
+  borderRadius: 50,
+  width: 60,
+  height: 60,
+  justifyContent: "center",
+  alignItems: "center",
+  elevation: 5,
+},
+modalContainer: {
+  flex: 1,
+  justifyContent: "center",
+  alignItems: "center",
+  backgroundColor: "rgba(0, 0, 0, 0.4)",
+  zIndex: 100,
+  overflow: "hidden", 
+  width: "100%",
+
+},
+modalContent: {
+  width: "85%",
+  backgroundColor: "#fff",
+  borderRadius: 5,
+  padding: 25,
+  alignItems: "center",
+  shadowColor: "#000",
+  shadowOffset: { width: 0, height: 4 },
+  shadowOpacity: 0.3,
+  shadowRadius: 6,
+  elevation: 6, // Sombra más pronunciada en Android
+},
+modalTitle: {
+  fontSize: 22,
+  fontWeight: "bold",
+  marginBottom: 20,
+  color: "#b38602", // Usar primaryDark para un toque empresarial
+},
+modalInput: {
+  width: "100%",
+  backgroundColor: "#ffee9c", // Usar primaryLighter para inputs
+  borderRadius: 10,
+  padding: 12,
+  marginBottom: 15,
+  fontSize: 16,
+  borderColor: "#b38602", // Borde en primaryDark
+  borderWidth: 1,
+},
+modalButton: {
+  backgroundColor: "#ffc502", // Botón en primaryColor
+  borderRadius: 10,
+  padding: 12,
+  marginTop: 10,
+  width: "100%",
+  alignItems: "center",
+},
+modalButtonCancel: {
+  backgroundColor: "#ff6605", 
+  borderRadius: 10,
+  padding: 12,
+  marginTop: 10,
+  width: "100%",
+  alignItems: "center",
+},
+modalButtonText: {
+  color: "#fff",
+  fontSize: 16,
+  fontWeight: "bold",
+},
+modalFileText: {
+  fontSize: 14,
+  color: "#333",
+  marginBottom: 10,
+  textAlign: "center",
+},
+modalLabel: {
+  fontSize: 16,
+  color: "#333",
+  fontWeight: "600",
+  marginBottom: 5,
+},
+
+
+
 });
