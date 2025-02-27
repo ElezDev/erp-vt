@@ -12,6 +12,7 @@ import { StyleSheet } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import color from "src/constant/color";
 
+
 interface Props {
   isVisible: boolean;
   formData: any;
@@ -35,6 +36,7 @@ const ModalIncapacidad = ({
   closeModal,
   handlePickFile,
 }: Props) => {
+  
   return (
     <Modal visible={isVisible} animationType="fade" transparent>
       <View style={incapacidadesStyles.modalOverlay}>
@@ -53,9 +55,9 @@ const ModalIncapacidad = ({
               }
             >
               <Picker.Item label="Seleccione un tipo" value="" />
-              <Picker.Item label="Médica" value="medica" />
-              <Picker.Item label="Laboral" value="laboral" />
-              <Picker.Item label="Otro" value="otro" />
+              <Picker.Item label="Médica" value="1" />
+              <Picker.Item label="Laboral" value="2" />
+              <Picker.Item label="Otro" value="3" />
             </Picker>
           </View>
 
@@ -92,12 +94,14 @@ const ModalIncapacidad = ({
           </TouchableOpacity>
           {showDatePicker.fechaFinal && (
             <DateTimePicker
+
               value={formData.fechaFinal}
               mode="date"
               display={Platform.OS === "ios" ? "spinner" : "calendar"}
               onChange={(event, date) =>
                 handleDateChange(event, date, "fechaFinal")
               }
+              
             />
           )}
 

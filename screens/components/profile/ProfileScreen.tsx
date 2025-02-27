@@ -14,8 +14,6 @@ import { stylesProfile } from "./StylesProfile";
 import { Persona } from "../Contratos/ContratosTypes";
 import LoadingComponent from "../utils/LoadingComponent";
 
-
-
 const ProfileScreen = () => {
   const [userData, setUserData] = useState<Persona | null>(null);
   const [loading, setLoading] = useState(true);
@@ -28,7 +26,7 @@ const ProfileScreen = () => {
         const roles = await AsyncStorage.getItem("roles");
         
         const response = await axios.get(
-          `${BASE_URL}user`,
+          `${BASE_URL}user_mobile`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -74,27 +72,13 @@ const ProfileScreen = () => {
     );
   }
 
-  const {
-    nombre1,
-    nombre2,
-    apellido1,
-    apellido2,
-    email,
-    direccion,
-    celular,
-    telefonoFijo,
-    perfil,
-    rutaFotoUrl,
-    ciudad_ubicacion,
-  } = userData;
-
   return (
     <ScrollView contentContainerStyle={stylesProfile.container}>
       {/* Encabezado */}
       <View style={stylesProfile.headerCard}>
-        <Image source={{ uri: rutaFotoUrl }} style={stylesProfile.profileImage} />
+        <Image source={{ uri: userData.rutaFotoUrl }} style={stylesProfile.profileImage} />
         <Text style={stylesProfile.name}>
-          {`${nombre1} ${nombre2} ${apellido1}`}
+          {`${userData.nombre1} ${userData.nombre2} ${userData.apellido1}`}
         </Text>
         <Text style={stylesProfile.position}>Administrador del Sistema</Text>
       </View>
@@ -103,38 +87,26 @@ const ProfileScreen = () => {
       <View style={stylesProfile.infoCard}>
         <Text style={stylesProfile.cardTitle}>Información Personal</Text>
         <Text style={stylesProfile.infoText}>
-          📧 {email}
+          📧 {userData.email}
         </Text>
         <Text style={stylesProfile.infoText}>
-          📞 {telefonoFijo || "N/A"}
+          📞 {userData.telefonoFijo || "N/A"}
         </Text>
         <Text style={stylesProfile.infoText}>
-          📱 {celular || "N/A"}
+          📱 {userData.celular || "N/A"}
         </Text>
         <Text style={stylesProfile.infoText}>
-          📍 {ciudad_ubicacion.descripcion} || <Text style={stylesProfile.infoText}>{direccion}</Text>
+          📍 {userData.ciudad_ubicacion.descripcion} - {userData.direccion}
         </Text>
       </View>
-
-      {/* Dirección */} 
-      {/* <View style={stylesProfile.infoCard}>
-        <Text style={stylesProfile.cardTitle}>Dirección</Text>
-        <Text style={stylesProfile.infoText}>{direccion}</Text>
-      </View> */}
 
       {/* Perfil */}
       <View style={stylesProfile.infoCard}>
         <Text style={stylesProfile.cardTitle}>Perfil</Text>
-        <Text style={stylesProfile.infoText}>{perfil}</Text>
+        <Text style={stylesProfile.infoText}>{userData.perfil}</Text>
       </View>
-
-      {/* Botón de Cerrar Sesión */}
-      {/* <TouchableOpacity style={stylesProfile.logoutButton} onPress={handleLogout}>
-        <Text style={stylesProfile.buttonText}>Cerrar sesión</Text>
-      </TouchableOpacity> */}
     </ScrollView>
   );
 };
-
 
 export default ProfileScreen;

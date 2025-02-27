@@ -13,6 +13,7 @@ import color from "src/constant/color";
 import Banners from "../nomina/TipoNomina";
 import InfoContratoUserPage from "../User/ContratosUser/InfoContratosUser";
 import LoadingComponent from "./LoadingComponent";
+import { useNavigation } from "@react-navigation/native";
 
 const Tab = createBottomTabNavigator();
 
@@ -34,20 +35,30 @@ const BottomTabNavigator = () => {
   const [roles, setRoles] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchRoles = async () => {
-      try {
-        const storedRoles = await AsyncStorage.getItem("roles");
-        setRoles(storedRoles ? JSON.parse(storedRoles) : []);
-      } catch (error) {
-        console.error("Error al obtener los roles:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const navigation = useNavigation();
 
-    fetchRoles();
-  }, []);
+useEffect(() => {
+  const fetchRoles = async () => {
+    try {
+      const storedRoles = await AsyncStorage.getItem("roles");
+      const parsedRoles = storedRoles ? JSON.parse(storedRoles) : [];
+      console.log("Roles obtenidos:", parsedRoles); // Depuración
+
+      if (parsedRoles.length === 0) {
+        navigation.replace('Login');
+        return; 
+      }
+
+      setRoles(parsedRoles);
+    } catch (error) {
+      console.error("Error al obtener los roles:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchRoles();
+}, [navigation]);
 
   if (loading) {
     return <LoadingComponent text="..." color="#ff6347" />;
@@ -55,7 +66,6 @@ const BottomTabNavigator = () => {
 
   const screens = [
     { name: "Home", component: HomeScreen, icon: "home-outline", roles: ["Admin", "MARKETING DIGITAL",  "DESARROLADOR JR"] },
-    
     { name: "Nomina", component: Banners, icon: "wallet", roles: ["Admin"] },
     { name: "Nomina", component: InfoContratoUserPage, icon: "wallet", roles: ["DESARROLADOR JR"] },
     { name: "Profile", component: ProfileScreen, icon: "person-outline", roles: ["Admin", "MARKETING DIGITAL", "DESARROLADOR JR"] },
